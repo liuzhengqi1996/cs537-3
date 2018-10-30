@@ -17,7 +17,7 @@ extern String *parser(char path);
  * checking whether the line begins with a tab or regular character, and filter
  * out blank lines, return array of struct String
  */
-String *parser(char path) {	
+String *parser(char path) {
 	// Pointers for file
 	FILE *fp;
 
