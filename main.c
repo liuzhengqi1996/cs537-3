@@ -25,23 +25,24 @@ int main() {
 	// Pointers for file
 	FILE *fp;
 	
-	// Set path to be makefile and Makefile
+	// Set path to be makefile
 	char path1[30];
-	char path2[30];
 	strcpy(path1, "/makefile");
-	strcpy(path2, "/Makefile");
 	
 	// Try to open makefile
 	fp = fopen(path1, "r");
+	
 	// If makefile is found, use it to run
 	if(fp != NULL){
 		// Do the steps below
 	}
 	// If makefile can't be found, try to open Makefile
 	else {
+		char path2[30];
+		strcpy(path2, "/Makefile");
 		fp = fopen(path2, "r");
 		if(fp == NULL){
-			printf("Cannnot find makefile or Makefile\n");
+			fprintf(stderr, "%s\n", "Cannnot find makefile or Makefile.");
 			exit(1);
 		}
 		// If Makefile is found, use it to run

@@ -11,7 +11,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // Parent: target
-// Child: dependency node which can further be a target or a file
+// Child: dependence node which can further be a target or a file
 // return node (maybe a root node)
 
 // Do post-order traversal with root node as input to evaluate the specifications

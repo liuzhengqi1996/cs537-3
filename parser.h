@@ -10,10 +10,10 @@
 // NetID:            mliu292, tzheng24
 ////////////////////////////////////////////////////////////////////////////////
 
-// Structure for target, dependency, command strings
+// Structure for target, dependence, command strings
 typedef struct String {
 	char target;
-	char *dependency;
+	char *dependence;
 	char *command;
 } String;
 

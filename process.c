@@ -15,3 +15,4 @@
 // When you want to run a new command, you will fork a new (child) process and
 // then that child process will exec the command.  The parent (creating) process
 // will wait until the child has completed.
+// Any command that exits with an error (completion code less than zero) terminates the make process.
