@@ -22,13 +22,13 @@ int main() {
 	// error and exit. (For an extra 1 point of credit, you can implement the 
 	// "-f" option of make to specify a custom file name.)
 	
-    // Pointers for file
-    FILE *fp;
-    
-    // Set path to be makefile and Makefile
-    char path1[30];
+	// Pointers for file
+	FILE *fp;
+	
+	// Set path to be makefile and Makefile
+	char path1[30];
 	char path2[30];
-    strcpy(path1, "/makefile");
+	strcpy(path1, "/makefile");
 	strcpy(path2, "/Makefile");
 	
 	// Try to open makefile
