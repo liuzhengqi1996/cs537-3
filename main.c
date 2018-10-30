@@ -22,6 +22,33 @@ int main() {
 	// error and exit. (For an extra 1 point of credit, you can implement the 
 	// "-f" option of make to specify a custom file name.)
 	
+    // Pointers for file
+    FILE *fp;
+    
+    // Set path to be makefile and Makefile
+    char path1[30];
+	char path2[30];
+    strcpy(path1, "/makefile");
+	strcpy(path2, "/Makefile");
+	
+	// Try to open makefile
+	fp = fopen(path1, "r");
+	// If makefile is found, use it to run
+	if(fp != NULL){
+		// Do the steps below
+	}
+	// If makefile can't be found, try to open Makefile
+	else {
+		fp = fopen(path2, "r");
+		if(fp == NULL){
+			printf("Cannnot find makefile or Makefile\n");
+			exit(1);
+		}
+		// If Makefile is found, use it to run
+		else {
+			// Do the steps below
+		}
+	}
 	
 	// Use parser to parse the lines in file
 	
@@ -30,7 +57,7 @@ int main() {
 	// represents the dependences between build specifications
 	
 	
-	// Traverse the graph in a bottom-up order to evaluate the specifications
+	// Traverse the graph in a bottom-up order to evaluate the specifications (may be called in representation module?)
 	
 	
 	// Use returned node from graph to create, update, and access a build specification
