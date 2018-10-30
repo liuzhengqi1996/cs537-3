@@ -10,6 +10,10 @@
 // NetID:            mliu292, tzheng24
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <stdio.h> 
+#include <stdlib.h> 
+#include <string.h>
+
 extern String *parser(char path);
 
 /*

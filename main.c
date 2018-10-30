@@ -10,6 +10,9 @@
 // NetID:            mliu292, tzheng24
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <stdio.h> 
+#include <stdlib.h> 
+
 /*
  * main - write a simple version of the make command, read a a "makefile" and
  * follow the specifications in the makefile as to which commands need to be 
