@@ -1,8 +1,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Main File:        main.c
 // This File:        main.c
-// Other Files:      parser.c, parser.h, graph.c, graph.h, representation.c
-//                   representation.h, process.c, process.h makefile
+// Other Files:      parser.c, parser.h, graph.c, graph.h, process.c, process.h
+//                   makefile
 // Semester:         CS 537 Fall 2018
 // Lecture:          Lec 001
 // Authors:          Zhengqi Liu, Tian Zheng

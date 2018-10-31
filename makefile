@@ -2,7 +2,7 @@
 # Main File:        main.c
 # This File:        makefile
 # Other Files:      main.c, parser.c, parser.h, graph.c, graph.h, 
-#                   representation.c, representation.h, process.c, process.h
+#                   process.c, process.h
 # Semester:         CS 537 Fall 2018
 # Lecture:          Lec 001
 # Authors:          Zhengqi Liu, Tian Zheng
@@ -15,10 +15,10 @@ WARNING_FLAGS = -Wall -Wextra
 EXE = 537make
 SCAN_BUILD_DIR = scan-build-out
 
-all: main.o parser.o graph.o representation.o process.o
-	$(CC) -o $(EXE) main.o parser.o graph.o representation.o process.o
+all: main.o parser.o graph.o process.o
+	$(CC) -o $(EXE) main.o parser.o graph.o process.o
 
-main.o: main.c parser.h graph.h representation.h process.h
+main.o: main.c parser.h graph.h process.h
 	$(CC) $(WARNING_FLAGS) -c main.c
 
 parser.o: parser.c parser.h
@@ -26,9 +26,6 @@ parser.o: parser.c parser.h
 
 graph.o: graph.c parser.h graph.h
 	$(CC) $(WARNING_FLAGS) -c graph.c
-
-representation.o: representation.c graph.h representation.h
-	$(CC) $(WARNING_FLAGS) -c representation.c
 	
 process.o: process.c parser.h process.h
 	$(CC) $(WARNING_FLAGS) -c process.c
