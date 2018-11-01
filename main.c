@@ -61,7 +61,7 @@ int main() {
 	// represents the dependences between build specifications
 	
 	
-	// Traverse the graph in a bottom-up order to evaluate the specifications (may be called in representation module?)
+	// Traverse the graph in a bottom-up order to evaluate the specifications
 	
 	
 	// Use returned node from graph to create, update, and access a build specification
