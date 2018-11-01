@@ -12,9 +12,9 @@
 
 // Structure for target, dependence, command strings
 typedef struct String {
-	char target;
-	char *dependence;
-	char *command;
+	char *target;
+	char **dependence;
+	char **command;
 } String;
 
 /*
