@@ -10,3 +10,17 @@
 // NetID:            mliu292, tzheng24
 ////////////////////////////////////////////////////////////////////////////////
 
+// Structure for node in graph
+typedef struct Node {
+	char *target;
+	char **dependence;
+	char **command;
+	struct Node *next;
+} Node;
+
+/*
+ * graph - create, update, and access a build specification; build the graph that 
+ * represents the dependences between build specifications, and traverse the graph
+ * in a bottom-up order to evaluate the specifications (a post-order traversal).
+ */
+Node *build_graph(String input);

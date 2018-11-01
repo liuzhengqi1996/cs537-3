@@ -22,4 +22,4 @@ typedef struct String {
  * checking whether the line begins with a tab or regular character, and filter
  * out blank lines.
  */
-String *parser(char path);
+String **parser(char path);
