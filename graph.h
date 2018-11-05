@@ -18,9 +18,20 @@ typedef struct Node {
 	struct Node *next;
 } Node;
 
+// Structure for graph
+typedef struct Graph {
+	int num_vertices;
+	struct Node **adjacency_list;
+} Graph;
+
 /*
  * graph - create, update, and access a build specification; build the graph that 
  * represents the dependences between build specifications, and traverse the graph
  * in a bottom-up order to evaluate the specifications (a post-order traversal).
  */
-Node *build_graph(String input);
+Graph *build_graph(struct String **input);
+
+/*
+ * create_node - create a node and initialize with input string structure.
+ */
+Node *create_node(struct String *input);

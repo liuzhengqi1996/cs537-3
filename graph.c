@@ -30,15 +30,27 @@
  * represents the dependences between build specifications, and traverse the graph
  * in a bottom-up order to evaluate the specifications (a post-order traversal).
  */
-Node *build_graph(struct String **input) {
+Graph *build_graph(struct String **input) {
+	struct Graph *graph = (struct Graph*) malloc(sizeof(struct Graph));
+	int counter = 0;
+	while (input[counter] != NULL) {
+		counter++;
+	}
+	graph -> num_vertices = counter;
+	graph -> adjacency_list = malloc(counter * sizeof(struct Node*));
 	
+	int i;
+	for (i = 0; i < counter; i++) {
+		graph -> adjacency_list[i] = NULL;
+	}
+	return graph;
 }
 
 /*
  * create_node - create a node and initialize with input string structure.
  */
 Node *create_node(struct String *input) {
-	struct node *node = (struct Node*) malloc(sizeof(struct Node)); 
+	struct Node *node = (struct Node*) malloc(sizeof(struct Node));
 	node -> target = input -> target;
 	node -> dependence = input -> dependence; 
 	node -> command = input -> command; 	
@@ -47,9 +59,23 @@ Node *create_node(struct String *input) {
 }
 
 /*
- * insert - insert a node into the graph.
+ * add_edge - add edges between two nodes from parent (target) to its child
+ * (dependence node).
  */
-Node *insert(struct Node *node) {
+void *add_edge(struct Graph *graph, struct String **input) {
+	int counter = 0;
+	while (input[counter] != NULL) {
+		counter++;
+	}
 	
+	int i = 0;
+	int j = 0;
+	int k = 0;
+	// incomplete...
+	while (1) {
+		// If a dependence is not the same as the subsequent target, check the next line
+		if (strcmp(input[i] -> dependence[j], input[i + 1] -> target[k]) != 0) {
+			k++;
+		}
+	}
 }
-

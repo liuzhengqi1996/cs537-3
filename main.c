@@ -64,9 +64,6 @@ int main() {
 	// Traverse the graph in a bottom-up order to evaluate the specifications
 	
 	
-	// Use returned node from graph to create, update, and access a build specification
-	
-	
 	// Run each build command in a new process, wait for its completion, get the return code
 	
 	
