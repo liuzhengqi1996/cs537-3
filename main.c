@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
 	FILE *fp;
 	
 	// Set path to be makefile
-	char path1[30];
+	char path1[1024];
 	strcpy(path1, "/makefile");
 	
 	// Try to open makefile
@@ -51,7 +51,7 @@ int main(int argc, char *argv[]) {
 	}
 	// If makefile can't be found, try to open Makefile
 	else {
-		char path2[30];
+		char path2[1024];
 		strcpy(path2, "/Makefile");
 		fp = fopen(path2, "r");
 		if(fp == NULL){

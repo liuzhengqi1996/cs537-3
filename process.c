@@ -29,3 +29,118 @@
 // then that child process will exec the command.  The parent (creating) process
 // will wait until the child has completed.
 // Any command that exits with an error (completion code less than zero) terminates the make process.
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#include "process.h"
+
+/*
+ * execute - run build command in a new process, waiting for its completion, 
+ * and getting the return code.
+ */
+int execute(struct String *input) {
+	// Pointers for file
+	FILE *fp;
+	
+	// Set path to be target
+	char path1[1024];
+	strcpy(path1, "/");
+	strcat(path1, input -> target);
+	
+	// Try to open target
+	fp = fopen(path1, "r");
+	
+	// If target is found, check its modification time
+	if(fp != NULL){
+		struct stat file;
+		// If stat fails, print error message and terminate program
+		if (stat(path1, &file) == -1) {
+			fprintf(stderr, "Cannot do stat to get file status.\n");
+			exit(1);
+		}
+		// If a dependence has earlier modification time, run command
+		else {
+			time_t modification_time = file.st_mtime;
+			
+			int i = 0;
+			while (input -> dependence[i] != NULL) {
+				char path2[1024];
+				strcpy(path2, "/");
+				strcat(path2, input -> dependence[i]);
+				struct stat dfile;
+				// If the dependence file exists and its modification time can be
+				// found, compare it to the modification time of target file
+				if (stat(path1, &dfile) == 0) {
+					time_t dependence_mtime = file.st_mtime;
+					// If the dependence file has earlier modification time, 
+					// then run command
+					if (dependence_mtime < modification_time) {
+						// Pid of child process
+						pid_t child_pid;
+						
+						// Exit status of child process
+						int child_status;
+						
+						// If fork fails, print error message and terminate program
+						if ((child_pid = fork()) < 0) {
+							fprintf(stderr, "Cannot do fork a child process.\n");
+							exit(1);
+						}
+						// Fork child process
+						if (child_pid == 0) {
+							// Execute command, if execvp fails, print error message and terminate program
+							if (execvp(input -> command, input) < 0) {
+								fprintf(stderr, "Cannot do execvp for child process.\n");
+								exit(1);
+							}
+						}
+						// Run parent process
+						else {
+							// Wait for child process
+							if (wait(&child_status) < 0) {
+								fprintf(stderr, "Cannot do execvp for child process.\n");
+								exit(1);
+							}
+						}
+					}
+				}
+				i++;
+			}
+		}
+	}
+	// If target can't be found, then run command
+	else {
+		// Pid of child process
+		pid_t child_pid;
+		
+		// Exit status of child process
+		int child_status;
+		
+		// If fork fails, print error message and terminate program
+		if ((child_pid = fork()) < 0) {
+			fprintf(stderr, "Cannot do fork a child process.\n");
+			exit(1);
+		}
+		// Fork child process
+		if (child_pid == 0) {
+			// Execute command, if execvp fails, print error message and terminate program
+			if (execvp(input -> command, input) < 0) {
+				fprintf(stderr, "Cannot do execvp for child process.\n");
+				exit(1);
+			}
+		}
+		// Run parent process
+		else {
+			// Wait for child process
+			if (wait(&child_status) < 0) {
+				fprintf(stderr, "Cannot do execvp for child process.\n");
+				exit(1);
+			}
+		}
+	}
+	return 0;
+}

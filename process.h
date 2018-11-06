@@ -9,3 +9,9 @@
 // CS Login:         zhengqi, tian
 // NetID:            mliu292, tzheng24
 ////////////////////////////////////////////////////////////////////////////////
+
+/*
+ * execute - run build command in a new process, waiting for its completion, 
+ * and getting the return code.
+ */
+ int execute(struct String *input);
