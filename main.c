@@ -18,12 +18,22 @@
  * follow the specifications in the makefile as to which commands need to be 
  * executed.
  */
-int main() {
+int main(int argc, char *argv[]) {
 	// Look first for a file called "makefile"; if that is found, then it will 
 	// use that file to run. If it does not find "makefile", then it will look
 	// for a file called "Makefile". If neither file is found, then report the
 	// error and exit. (For an extra 1 point of credit, you can implement the 
 	// "-f" option of make to specify a custom file name.)
+	
+	// If command line arguments does not begin with 537make, print the proper format and exit
+    if (argc < 1) {
+		fprintf(stderr, "%s\n", "Proper format begins with 537make.\n");
+        exit(1);
+    }
+    else if (strcmp(argv[0], "537make") != 0) {
+        fprintf(stderr, "%s\n", "Proper format starts with 537make.\n");
+        exit(1);
+    }
 	
 	// Pointers for file
 	FILE *fp;
@@ -51,6 +61,11 @@ int main() {
 		// If Makefile is found, use it to run
 		else {
 			// Do the steps below
+			
+			
+			// If the first build specification is entered, make the build specification
+			// with correct label
+			// search argv[1] for a match from all targets
 		}
 	}
 	
