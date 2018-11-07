@@ -41,9 +41,9 @@ Node **parser(char path) {
 		int i = 0;
 		
 		// Create and allocate memory for String structure
-		struct String **s = (struct String **) malloc(sizeof(struct String*) * BUFFSIZE);
+		struct Node **s = (struct Node **) malloc(sizeof(struct Node*) * BUFFSIZE);
 		for (int i = 0; i < BUFFSIZE; i++) {
-			s[i] = malloc(sizeof(struct String));
+			s[i] = malloc(sizeof(struct Node));
 		}
 		
 		// Parse target, dependence, command
@@ -52,9 +52,9 @@ Node **parser(char path) {
 			// If the current String structure is full, reallocate memory to double its size
 			if (lineNum == BUFFSIZE) {
 				BUFFSIZE = BUFFSIZE * 2;
-				struct String **s = (struct String **) realloc(s, sizeof(struct String*) * BUFFSIZE);
+				struct Node **s = (struct Node **) realloc(s, sizeof(struct Node*) * BUFFSIZE);
 				for (int i = 0; i < BUFFSIZE; i++) {
-					s[i] = realloc(s[i], sizeof(struct String));
+					s[i] = realloc(s[i], sizeof(struct Node));
 				}
 			}
 			
