@@ -48,6 +48,9 @@ int main(int argc, char *argv[]) {
 	// If makefile is found, use it to run
 	if(fp != NULL){
 		// Do the steps below
+		Node ** parserline=parser(path1);
+		Graph * G=build_graph(parserline);
+		post_order_traversal(G,G ->  vex[0];
 	}
 	// If makefile can't be found, try to open Makefile
 	else {
@@ -61,6 +64,10 @@ int main(int argc, char *argv[]) {
 		// If Makefile is found, use it to run
 		else {
 			// Do the steps below
+			Node ** parserline=parser(path2);
+		Graph * G=build_graph(parserline);
+		post_order_traversal(G,G ->  vex[0];
+			
 			
 			
 			// If the first build specification is entered, make the build specification
