@@ -15,14 +15,14 @@
 #include <string.h>
 #include "parser.h"
 
-extern String *parser(char path);
+extern Node *parser(char path);
 
 /*
  * parser - parse lines in the makefile, split a line into an array of strings, 
  * checking whether the line begins with a tab or regular character, and filter
  * out blank lines, return array of struct String
  */
-String **parser(char path) {
+Node **parser(char path) {
 	// Pointers for file
 	FILE *fp;
 
