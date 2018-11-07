@@ -39,6 +39,8 @@
 #include <unistd.h>
 #include "process.h"
 
+extern int execute(struct Node *input);
+
 /*
  * execute - run build command in a new process, waiting for its completion, 
  * and getting the return code.
