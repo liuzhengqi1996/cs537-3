@@ -12,7 +12,7 @@
 
 // Structure for node in graph
 typedef struct Node {
-	char *vertex;
+	char *target;
 	char **dependence;
 	char **command;
 	struct Node *next;
