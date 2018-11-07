@@ -12,7 +12,7 @@
 
 // Structure for node in graph
 typedef struct Node {
-	char *target;
+	char *vertex;
 	char **dependence;
 	char **command;
 	struct Node *next;
@@ -21,7 +21,11 @@ typedef struct Node {
 // Structure for graph
 typedef struct Graph {
 	int num_vertices;
-	struct Node **adjacency_list;
+    Node * vexs[MAXVEX];
+    int arc[MAXVEX][MAXVEX];
+  
+	//struct Node **adjacency_list;
+   
 } Graph;
 
 /*
@@ -32,6 +36,15 @@ typedef struct Graph {
 Graph *build_graph(struct String **input);
 
 /*
- * create_node - create a node and initialize with input string structure.
+ * create_tar_node - create a node and initialize with input string structure for a target file.
  */
-Node *create_node(struct String *input);
+Node *create_tar_node(struct String * input);
+
+
+/*
+* create_create_node - create a node and initialize with input string structure for a non-target file.
+*/
+Node *create_file_node(char * input);
+
+// findout whether a point has been built
+int find ( char* input ,Node** vexs );

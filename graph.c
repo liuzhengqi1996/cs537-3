@@ -30,6 +30,9 @@
  * represents the dependences between build specifications, and traverse the graph
  * in a bottom-up order to evaluate the specifications (a post-order traversal).
  */
+
+
+
 Graph *build_graph(struct String **input) {
 	struct Graph *graph = (struct Graph*) malloc(sizeof(struct Graph));
 	int counter = 0;
@@ -37,34 +40,82 @@ Graph *build_graph(struct String **input) {
 		counter++;
 	}
 	graph -> num_vertices = counter;
+    for (int i=0;i<counter;i++){
+        Node* newNode=create_tar_node(input[i]);
+        vexs[i]=newNode;
+    }
+    vex_counter=counter;
+    for (int i=0;i<counter;i++){
+        
+        int dep_count=0;
+        while(input[i] ->dependence[dep_count] != NULL){
+            dep_count++;
+        }
+        for (int j= 0;j<dep_count)
+            char * dest= string[i] ->dependence [j];
+        int find = find(dest,vexs);
+            if (find == -1) {
+                Node * newNode = create_file_node(dest);
+                int newvex=vex_counter;
+                vexs[vex_counter]=newNode;
+                vex_counter++;
+                arc[i][newvex]=1;
+            }
+            else {
+                arc[i][find]=1
+                }
+                                }
+                                    }
+    
+    
+    
+    
+    /*
 	graph -> adjacency_list = malloc(counter * sizeof(struct Node*));
     int i;
     for (i=0;i<counter;i++){
         char *s=input[i] -> target;
         graph -> adjacency_list[s]=NULL;
         
-    }
+    }*/
 	return graph;
 }
 
 /*
  * create_node - create a node and initialize with input string structure.
  */
-Node *create_node(char * input) {
+Node *create_tar_node(struct String * input) {
 	struct Node *node = (struct Node*) malloc(sizeof(struct Node));
-    node -> vertex = char;
-	/*node -> target = input -> target;
+    
+   
+	node -> vertex = input -> target;
 	node -> dependence = input -> dependence; 
 	node -> command = input -> command;
-     */
-	node -> next = NULL; 
+    
+	//node -> next = NULL;
 	return node;
+}
+
+Node *create_file_node(char * input){
+    struct Node *node = (struct Node*) malloc(sizeof(struct Node));
+    node -> vertex = input;
+    node -> dependence= NULL;
+    node -> command = NULL;
+    return Node;
+}
+int find ( char* input ,Node** vexs ){
+    for (int i=0;i<VEXMAX;i++){
+        char *s=vexs[i] -> vertex;
+        if(strcmp(input,s)==0){return i;}
+    }
+    return -1;
 }
 
 /*
  * add_edge - add edges between two nodes from parent (target) to its child
  * (dependence node).
  */
+/*
 void *add_edge(struct Graph *graph, struct String **input) {
 	int counter = 0;
 	while (input[counter] != NULL) {
@@ -79,15 +130,10 @@ void *add_edge(struct Graph *graph, struct String **input) {
         for (int j=0;j<dep_count;j++){
             char* dest=input[i] -> dependence[j];
             struct Node* newNode=create_node(dest);
-            newNode -> next =graph -> adjacency_list[dest];
+            newNode -> next =graph -> adjacency_list[src];
             graph -> adjacency_list[dest]=newNode;
-            
                                     }
-        
-        
     }
-    
-    
 	/*int i = 0;
 	int j = 0;
 	int k = 0;
@@ -97,5 +143,5 @@ void *add_edge(struct Graph *graph, struct String **input) {
 		if (strcmp(input[i] -> dependence[j], input[i + 1] -> target[k]) != 0) {
 			k++;
 		}
-	}*/
-}
+	}
+} */
