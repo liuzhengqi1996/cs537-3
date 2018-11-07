@@ -22,6 +22,4 @@ typedef struct Node {
  * checking whether the line begins with a tab or regular character, and filter
  * out blank lines.
  */
-Node **parser(char path);
-
-void execute(struct Node *input);
+Node **parser(char *path);
