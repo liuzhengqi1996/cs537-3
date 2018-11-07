@@ -9,13 +9,16 @@
 // CS Login:         zhengqi, tian
 // NetID:            mliu292, tzheng24
 ////////////////////////////////////////////////////////////////////////////////
-
+/*
 // Structure for node in graph
 typedef struct Node {
 	char *target;
 	char **dependence;
 	char **command;
 } Node;
+*/
+
+#define MAXVEX 20
 
 // Structure for graph
 typedef struct Graph {

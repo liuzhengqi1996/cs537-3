@@ -15,7 +15,7 @@
 #include <string.h>
 #include "parser.h"
 
-extern Node *parser(char path);
+extern Node * parser(char path);
 
 /*
  * parser - parse lines in the makefile, split a line into an array of strings, 

@@ -20,6 +20,8 @@
  * follow the specifications in the makefile as to which commands need to be
  * executed.
  */
+
+
 int main(int argc, char *argv[]) {
     // Look first for a file called "makefile"; if that is found, then it will
     // use that file to run. If it does not find "makefile", then it will look
@@ -57,14 +59,14 @@ int main(int argc, char *argv[]) {
             Graph * G=build_graph(parserline);
             int n= G -> num_vertices;
             for(int i=0;i<n;i++){
-            post_order_traversal(G,G ->  vex[n-i+1]);
+            post_order_traversal(G,G -> vexs[n-i+1]);
                                  }
         }
         else {
                Node ** parserline=parser(path1);
               Graph * G=build_graph(parserline);
-              int find = find(argv[1],G->vexs);
-              for (int i= G -> num_vertices-1;i>find;i--){
+              int finder = find(argv[1],G->vexs);
+              for (int i= G -> num_vertices-1;i>finder;i--){
              post_order_traversal(G,G ->vexs[i]);
                                          }
             
@@ -87,14 +89,14 @@ int main(int argc, char *argv[]) {
                                          Graph * G=build_graph(parserline);
                                          int n= G -> num_vertices;
                                          for(int i=0;i<n;i++){
-                                         post_order_traversal(G,G ->  vex[n-i+1]);
+                                         post_order_traversal(G,G ->  vexs[n-i+1]);
                                          }
                                      }
                                      else {
                                          Node ** parserline=parser(path2);
                                          Graph * G=build_graph(parserline);
-                                         int find = find(argv[1],G->vexs);
-                                         for (int i= G -> num_vertices-1;i>find;i--){
+                                         int finder = find(argv[1],G->vexs);
+                                         for (int i= G -> num_vertices-1;i>finder;i--){
                                          post_order_traversal(G,G ->vexs[i]);
                                          }
                                                           
@@ -105,7 +107,7 @@ int main(int argc, char *argv[]) {
                                                           // search argv[1] for a match from all targets
                                         }
                                     }
-                                
+                                }
         
                                                           // Use parser to parse the lines in file
                                                           
