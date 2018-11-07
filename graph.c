@@ -88,7 +88,7 @@ Node *create_tar_node(struct String * input) {
 	struct Node *node = (struct Node*) malloc(sizeof(struct Node));
     
    
-	node -> vertex = input -> target;
+	node -> target = input -> target;
 	node -> dependence = input -> dependence; 
 	node -> command = input -> command;
     
@@ -98,7 +98,7 @@ Node *create_tar_node(struct String * input) {
 
 Node *create_file_node(char * input){
     struct Node *node = (struct Node*) malloc(sizeof(struct Node));
-    node -> vertex = input;
+    node -> target = input;
     node -> dependence= NULL;
     node -> command = NULL;
     return Node;
