@@ -53,15 +53,20 @@ int main(int argc, char *argv[]) {
     if(fp != NULL){
         // Do the steps below
         if (argc == 1){
-        Node ** parserline=parser(path1);
-        Graph * G=build_graph(parserline);
-        post_order_traversal(G,G ->  vex[0]);
-        }
-        else {
             Node ** parserline=parser(path1);
             Graph * G=build_graph(parserline);
-            int find = find(argv[1],G->vexs);
-            post_order_traversal(G,G ->vexs[find]);
+            int n= G -> num_vertices;
+            for(int i=0;i<n;i++){
+            post_order_traversal(G,G ->  vex[n-i+1]);
+                                 }
+        }
+        else {
+               Node ** parserline=parser(path1);
+              Graph * G=build_graph(parserline);
+              int find = find(argv[1],G->vexs);
+              for (int i= G -> num_vertices-1;i>find;i--){
+             post_order_traversal(G,G ->vexs[i]);
+                                         }
             
         }
                              }
@@ -80,13 +85,18 @@ int main(int argc, char *argv[]) {
                                      if (argc == 1){
                                          Node ** parserline=parser(path2);
                                          Graph * G=build_graph(parserline);
-                                         post_order_traversal(G,G ->  vex[0]);
+                                         int n= G -> num_vertices;
+                                         for(int i=0;i<n;i++){
+                                         post_order_traversal(G,G ->  vex[n-i+1]);
+                                         }
                                      }
                                      else {
                                          Node ** parserline=parser(path2);
                                          Graph * G=build_graph(parserline);
                                          int find = find(argv[1],G->vexs);
-                                         post_order_traversal(G,G ->vexs[find]);
+                                         for (int i= G -> num_vertices-1;i>find;i--){
+                                         post_order_traversal(G,G ->vexs[i]);
+                                         }
                                                           
                                                           
                                                           
