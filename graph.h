@@ -48,3 +48,8 @@ Node *create_file_node(char * input);
 
 // findout whether a point has been built
 int find ( char* input ,Node** vexs );
+
+/*
+ * post_order_traversal - traverse the graph in a bottom-up order and execute each node
+ */
+void *post_order_traversal(struct String *input);
