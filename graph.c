@@ -38,22 +38,25 @@ Graph *build_graph(struct String **input) {
 	}
 	graph -> num_vertices = counter;
 	graph -> adjacency_list = malloc(counter * sizeof(struct Node*));
-	
-	int i;
-	for (i = 0; i < counter; i++) {
-		graph -> adjacency_list[i] = NULL;
-	}
+    int i;
+    for (i=0;i<counter;i++){
+        char *s=input[i] -> target;
+        graph -> adjacency_list[s]=NULL;
+        
+    }
 	return graph;
 }
 
 /*
  * create_node - create a node and initialize with input string structure.
  */
-Node *create_node(struct String *input) {
+Node *create_node(char * input) {
 	struct Node *node = (struct Node*) malloc(sizeof(struct Node));
-	node -> target = input -> target;
+    node -> vertex = char;
+	/*node -> target = input -> target;
 	node -> dependence = input -> dependence; 
-	node -> command = input -> command; 	
+	node -> command = input -> command;
+     */
 	node -> next = NULL; 
 	return node;
 }
@@ -67,8 +70,25 @@ void *add_edge(struct Graph *graph, struct String **input) {
 	while (input[counter] != NULL) {
 		counter++;
 	}
-	
-	int i = 0;
+    for (int i=0; i<counter;i++){
+        char *src=input[i] -> target;
+        int dep_count=0;
+        while(input[i] ->dependence[dep_count] != NULL){
+            dep_count++;
+        }
+        for (int j=0;j<dep_count;j++){
+            char* dest=input[i] -> dependence[j];
+            struct Node* newNode=create_node(dest);
+            newNode -> next =graph -> adjacency_list[dest];
+            graph -> adjacency_list[dest]=newNode;
+            
+                                    }
+        
+        
+    }
+    
+    
+	/*int i = 0;
 	int j = 0;
 	int k = 0;
 	// incomplete...
@@ -77,5 +97,5 @@ void *add_edge(struct Graph *graph, struct String **input) {
 		if (strcmp(input[i] -> dependence[j], input[i + 1] -> target[k]) != 0) {
 			k++;
 		}
-	}
+	}*/
 }
