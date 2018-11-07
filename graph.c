@@ -71,7 +71,7 @@ Graph *build_graph(struct Node **input) {
 		else {
 			arc[i][find] = 1
 		}
-	}
+	} // Not sure if there is an extra { ?
 	}
     /*
 	graph -> adjacency_list = malloc(counter * sizeof(struct Node*));
