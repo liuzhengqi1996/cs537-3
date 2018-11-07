@@ -32,23 +32,25 @@ typedef struct Graph {
  * represents the dependences between build specifications, and traverse the graph
  * in a bottom-up order to evaluate the specifications (a post-order traversal).
  */
-Graph *build_graph(struct String **input);
+Graph *build_graph(struct Node **input);
 
 /*
  * create_tar_node - create a node and initialize with input string structure for a target file.
  */
-Node *create_tar_node(struct String * input);
+Node *create_tar_node(struct Node *input);
 
 
 /*
-* create_create_node - create a node and initialize with input string structure for a non-target file.
-*/
-Node *create_file_node(char * input);
+ * create_create_node - create a node and initialize with input string structure for a non-target file.
+ */
+Node *create_file_node(char *input);
 
-// findout whether a point has been built
-int find ( char* input ,Node** vexs );
+/*
+ * find - find whether a point has been built
+ */
+int find(char *input, Node **vexs);
 
 /*
  * post_order_traversal - traverse the graph in a bottom-up order and execute each node
  */
-void *post_order_traversal(struct Graph *graph, struct String *input);
+void *post_order_traversal(struct Graph *graph, struct Node *input);
