@@ -103,9 +103,11 @@ Node *create_file_node(char * input){
     node -> command = NULL;
     return Node;
 }
+
+// Check if a node has already been visited as a target
 int find ( char* input ,Node** vexs ){
     for (int i=0;i<VEXMAX;i++){
-        char *s=vexs[i] -> vertex;
+        char *s=vexs[i] -> target;
         if(strcmp(input,s)==0){return i;}
     }
     return -1;
