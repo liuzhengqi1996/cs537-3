@@ -38,14 +38,15 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include "process.h"
+#include "parser.h"
 
-extern int execute(struct Node *input);
+extern void execute(struct  Node *input);
 
 /*
  * execute - run build command in a new process, waiting for its completion, 
  * and getting the return code.
  */
-int execute(struct Node *input) {
+void execute(struct Node *input) {
 	// Pointers for file
 	FILE *fp;
 	
@@ -145,5 +146,5 @@ int execute(struct Node *input) {
 			}
 		}
 	}
-	return 0;
+//	return 0;
 }

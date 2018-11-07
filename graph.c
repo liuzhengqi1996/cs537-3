@@ -25,6 +25,8 @@
 #include <string.h>
 #include "parser.h"
 #include "process.h"
+#include "graph.h"
+
 
 extern Graph *build_graph(struct Node **input);
 extern Node *create_tar_node(struct Node *input);
@@ -47,7 +49,7 @@ Graph *build_graph(struct Node **input) {
 	// Create all target nodes
 	for (int i = 0; i < counter; i++) {
 		Node* newNode=create_tar_node(input[i]);
-		vexs[i] = newNode;
+		graph -> vexs[i] = newNode;
 	}
 	// Counter for all vertices
 	int vex_counter = counter;
@@ -57,23 +59,24 @@ Graph *build_graph(struct Node **input) {
 		while(input[i] -> dependence[dep_count] != NULL) {
 		    dep_count++;
 		}
-		for (int j = 0; j < dep_count; j++)
-			char *dest = string[i] -> dependence[j];
-		int find = find(dest,vexs);
+		for (int j = 0; j < dep_count; j++){
+			char * dest = input[i] -> dependence[j];
+		int finder = find(dest,graph-> vexs);
 		// Change arc to 1 if the node is connected to its child,
 		// create a file node for non-target node
-		if (find == -1) {
+		if (finder == -1) {
 			Node *newNode = create_file_node(dest);
 			int newvex = vex_counter;
-			vexs[vex_counter] = newNode;
+			graph -> vexs[vex_counter] = newNode;
 			vex_counter++;
-			arc[i][newvex] = 1;
+			graph -> arc[i][newvex] = 1;
 		}
 		else {
-			arc[i][find] = 1
+			graph -> arc[i][finder] = 1;
 		}
-	} // Not sure if there is an extra { ?
-	}
+						}
+	} 
+
     /*
 	graph -> adjacency_list = malloc(counter * sizeof(struct Node*));
     int i;
@@ -101,14 +104,14 @@ Node *create_file_node(char * input){
     node -> target = input;
     node -> dependence = NULL;
     node -> command = NULL;
-    return Node;
+    return node;
 }
 
 /*
  * find - Check if a node has already been visited as a target.
  */
 int find ( char *input , Node **vexs ){
-    for (int i = 0; i < VEXMAX; i++){
+    for (int i = 0; i < MAXVEX; i++){
         char *s = vexs[i] -> target;
         if(strcmp(input,s) == 0) {return i;}
     }
@@ -125,20 +128,20 @@ void *post_order_traversal(struct Graph *graph, struct Node *input) {
 	int i = 0;
 	int j = 0;
 	int counter = 0;
-	int visited[sizeof(graph.arc)];
+	int visited[sizeof(graph -> arc)];
 	// Execute its unvisited parent node (if there is an edge from parent node to current node),
 	// terminate when all nodes are visited
-	while (counter != sizeof(graph.arc)) {
-		for (i = 0; i < sizeof(graph.arc); i++) {
-			for (j = 0; j < sizeof(graph.arc[0]); j++) {
-				if (vexs[j] == input && arc[i][j] == 1 && visited[i] != 1) {
-					execute(vexs[i]);
-					vistied[i] = 1;
+	while (counter != sizeof(graph -> arc)) {
+		for (i = 0; i < sizeof(graph -> arc); i++) {
+			for (j = 0; j < sizeof(graph -> arc[0]); j++) {
+				if (graph ->vexs[j] == input && graph -> arc[i][j] == 1 && visited[i] != 1) {
+					execute(graph -> vexs[i]);
+					visited[i] = 1;
 					counter++;
 				}
 			}		
 		}
 		// Recursively update parent node
-		input = vexs[i];
+		input = graph -> vexs[i];
 	}
 }

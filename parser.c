@@ -15,7 +15,7 @@
 #include <string.h>
 #include "parser.h"
 
-extern Node * parser(char path);
+extern Node** parser(char path);
 
 /*
  * parser - parse lines in the makefile, split a line into an array of strings, 
@@ -35,7 +35,7 @@ Node **parser(char path) {
 		exit(1);
 	} else {
 		// Size of input buffer
-		const int BUFFSIZE = 1024;
+		 int BUFFSIZE = 1024;
 		char *buffer = (char*) malloc(sizeof(char) * BUFFSIZE);
 		int lineNum = 1;
 		int i = 0;
@@ -76,19 +76,19 @@ Node **parser(char path) {
 				
 				// Check if the line is a target line
 				// The target starts on the first character of a line and ends with a ":" character
-				else if ((s -> target = strtok(buffer, ":")) != NULL) {
+				 if ((s[i] -> target = strtok(buffer, ":")) != NULL) {
 					// Dependence names are after ":" character and each is separated by one or more spaces
 					int j = 0;
-					while ((s -> dependence[j] = strtok(NULL, " ")) != NULL) {
+					while ((s[i] -> dependence[j] = strtok(NULL, " ")) != NULL) {
 						j++;
 					}
 				}
 				// Check if the line is a command line
 				// A command line always starts with a tab character (not spaces)
-				else if ((s -> target = strtok(buffer, "\t")) != NULL) {
+				else if ((s[i] -> target = strtok(buffer, "\t")) != NULL) {
 					// Arguments are after tab character and each is separated by one or more spaces or tabs
 					int j = 0;
-					while ((s -> command[j] = strtok(NULL, " \t")) != NULL) {
+					while ((s[i] -> command[j] = strtok(NULL, " \t")) != NULL) {
 						j++;
 					}
 				}
