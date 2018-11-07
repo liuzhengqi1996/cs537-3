@@ -14,4 +14,4 @@
  * execute - run build command in a new process, waiting for its completion, 
  * and getting the return code.
  */
-int execute(struct String *input);
+int execute(struct Node *input);
