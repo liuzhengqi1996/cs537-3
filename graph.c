@@ -51,7 +51,7 @@ Graph *build_graph(struct String **input) {
         while(input[i] ->dependence[dep_count] != NULL){
             dep_count++;
         }
-        for (int j= 0;j<dep_count)
+        for (int j= 0;j<dep_count;j++)
             char * dest= string[i] ->dependence [j];
         int find = find(dest,vexs);
             if (find == -1) {
