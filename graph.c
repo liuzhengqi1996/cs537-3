@@ -24,6 +24,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "parser.h"
+#include "process.h"
 
 extern Graph *build_graph(struct Node **input);
 extern Node *create_tar_node(struct Node *input);
