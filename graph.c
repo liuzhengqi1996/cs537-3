@@ -48,7 +48,7 @@ Graph *build_graph(struct String **input) {
 	// Counter for all vertices
     int vex_counter=counter;
     for (int i=0;i<counter;i++){
-        // Count number of dependency node
+        // Counter for dependency node
         int dep_count=0;
         while(input[i] ->dependence[dep_count] != NULL){
             dep_count++;
