@@ -46,7 +46,7 @@ Graph *build_graph(struct String **input) {
     }
     vex_counter=counter;
     for (int i=0;i<counter;i++){
-        
+        // Count number of dependency node
         int dep_count=0;
         while(input[i] ->dependence[dep_count] != NULL){
             dep_count++;
@@ -54,6 +54,8 @@ Graph *build_graph(struct String **input) {
         for (int j= 0;j<dep_count;j++)
             char * dest= string[i] ->dependence [j];
         int find = find(dest,vexs);
+	    // Change arc to 1 if the node is connected to its child,
+	    // create a file node for non-target node
             if (find == -1) {
                 Node * newNode = create_file_node(dest);
                 int newvex=vex_counter;
