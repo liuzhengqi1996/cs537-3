@@ -15,7 +15,6 @@ typedef struct Node {
 	char *target;
 	char **dependence;
 	char **command;
-	struct Node *next;
 } Node;
 
 // Structure for graph
