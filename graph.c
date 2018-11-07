@@ -25,15 +25,18 @@
 #include <string.h>
 #include "parser.h"
 
+extern Graph *build_graph(struct Node **input);
+extern Node *create_tar_node(struct Node *input);
+extern Node *create_file_node(char *input);
+extern int find(char *input, Node **vexs);
+extern void *post_order_traversal(struct Graph *graph, struct Node *input);
+
 /*
- * graph - create, update, and access a build specification; build the graph that 
+ * build_graph - create, update, and access a build specification; build the graph that 
  * represents the dependences between build specifications, and traverse the graph
  * in a bottom-up order to evaluate the specifications (a post-order traversal).
  */
-
-
-
-Graph *build_graph(struct String **input) {
+Graph *build_graph(struct Node **input) {
 	struct Graph *graph = (struct Graph*) malloc(sizeof(struct Graph));
 	int counter = 0;
 	while (input[counter] != NULL) {
@@ -41,39 +44,35 @@ Graph *build_graph(struct String **input) {
 	}
 	graph -> num_vertices = counter;
 	// Create all target nodes
-    for (int i=0;i<counter;i++){
-        Node* newNode=create_tar_node(input[i]);
-        vexs[i]=newNode;
-    }
+	for (int i = 0; i < counter; i++) {
+		Node* newNode=create_tar_node(input[i]);
+		vexs[i] = newNode;
+	}
 	// Counter for all vertices
-    int vex_counter=counter;
-    for (int i=0;i<counter;i++){
-        // Counter for dependency node
-        int dep_count=0;
-        while(input[i] ->dependence[dep_count] != NULL){
-            dep_count++;
-        }
-        for (int j= 0;j<dep_count;j++)
-            char * dest= string[i] ->dependence [j];
-        int find = find(dest,vexs);
-	    // Change arc to 1 if the node is connected to its child,
-	    // create a file node for non-target node
-            if (find == -1) {
-                Node * newNode = create_file_node(dest);
-                int newvex=vex_counter;
-                vexs[vex_counter]=newNode;
-                vex_counter++;
-                arc[i][newvex]=1;
-            }
-            else {
-                arc[i][find]=1
-                }
-                                }
-                                    }
-    
-    
-    
-    
+	int vex_counter = counter;
+	for (int i = 0; i < counter; i++) {
+		// Counter for dependency node
+		int dep_count = 0;
+		while(input[i] -> dependence[dep_count] != NULL) {
+		    dep_count++;
+		}
+		for (int j = 0; j < dep_count; j++)
+			char *dest = string[i] -> dependence[j];
+		int find = find(dest,vexs);
+		// Change arc to 1 if the node is connected to its child,
+		// create a file node for non-target node
+		if (find == -1) {
+			Node *newNode = create_file_node(dest);
+			int newvex = vex_counter;
+			vexs[vex_counter] = newNode;
+			vex_counter++;
+			arc[i][newvex] = 1;
+		}
+		else {
+			arc[i][find] = 1
+		}
+	}
+	}
     /*
 	graph -> adjacency_list = malloc(counter * sizeof(struct Node*));
     int i;
@@ -88,22 +87,18 @@ Graph *build_graph(struct String **input) {
 /*
  * create_node - create a node and initialize with input string structure.
  */
-Node *create_tar_node(struct String * input) {
+Node *create_tar_node(struct Node *input) {
 	struct Node *node = (struct Node*) malloc(sizeof(struct Node));
-    
-   
 	node -> target = input -> target;
 	node -> dependence = input -> dependence; 
 	node -> command = input -> command;
-    
-	//node -> next = NULL;
 	return node;
 }
 
 Node *create_file_node(char * input){
     struct Node *node = (struct Node*) malloc(sizeof(struct Node));
     node -> target = input;
-    node -> dependence= NULL;
+    node -> dependence = NULL;
     node -> command = NULL;
     return Node;
 }
@@ -111,10 +106,10 @@ Node *create_file_node(char * input){
 /*
  * find - Check if a node has already been visited as a target.
  */
-int find ( char* input ,Node** vexs ){
-    for (int i=0;i<VEXMAX;i++){
-        char *s=vexs[i] -> target;
-        if(strcmp(input,s)==0){return i;}
+int find ( char *input , Node **vexs ){
+    for (int i = 0; i < VEXMAX; i++){
+        char *s = vexs[i] -> target;
+        if(strcmp(input,s) == 0) {return i;}
     }
     return -1;
 }
