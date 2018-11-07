@@ -11,15 +11,15 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // Structure for target, dependence, command strings
-typedef struct String {
+typedef struct Node {
 	char *target;
 	char **dependence;
 	char **command;
-} String;
+} Node;
 
 /*
  * parser - parse lines in the makefile, split a line into an array of strings, 
  * checking whether the line begins with a tab or regular character, and filter
  * out blank lines.
  */
-String **parser(char path);
+Node **parser(char path);
