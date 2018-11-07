@@ -104,7 +104,9 @@ Node *create_file_node(char * input){
     return Node;
 }
 
-// Check if a node has already been visited as a target
+/*
+ * find - Check if a node has already been visited as a target.
+ */
 int find ( char* input ,Node** vexs ){
     for (int i=0;i<VEXMAX;i++){
         char *s=vexs[i] -> target;
