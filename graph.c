@@ -40,11 +40,13 @@ Graph *build_graph(struct String **input) {
 		counter++;
 	}
 	graph -> num_vertices = counter;
+	// Create all target nodes
     for (int i=0;i<counter;i++){
         Node* newNode=create_tar_node(input[i]);
         vexs[i]=newNode;
     }
-    vex_counter=counter;
+	// Counter for all vertices
+    int vex_counter=counter;
     for (int i=0;i<counter;i++){
         // Count number of dependency node
         int dep_count=0;
