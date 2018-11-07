@@ -120,36 +120,29 @@ int find ( char* input ,Node** vexs ){
 }
 
 /*
- * add_edge - add edges between two nodes from parent (target) to its child
- * (dependence node).
+ * post_order_traversal - traverse the graph in a bottom-up order and execute each node
  */
-/*
-void *add_edge(struct Graph *graph, struct String **input) {
-	int counter = 0;
-	while (input[counter] != NULL) {
-		counter++;
-	}
-    for (int i=0; i<counter;i++){
-        char *src=input[i] -> target;
-        int dep_count=0;
-        while(input[i] ->dependence[dep_count] != NULL){
-            dep_count++;
-        }
-        for (int j=0;j<dep_count;j++){
-            char* dest=input[i] -> dependence[j];
-            struct Node* newNode=create_node(dest);
-            newNode -> next =graph -> adjacency_list[src];
-            graph -> adjacency_list[dest]=newNode;
-                                    }
-    }
-	/*int i = 0;
+void *post_order_traversal(struct Graph *graph, struct Node *input) {
+	// Execute the node itself
+	execute(input);
+	
+	int i = 0;
 	int j = 0;
-	int k = 0;
-	// incomplete...
-	while (1) {
-		// If a dependence is not the same as the subsequent target, check the next line
-		if (strcmp(input[i] -> dependence[j], input[i + 1] -> target[k]) != 0) {
-			k++;
+	int counter = 0;
+	int visited[sizeof(graph.arc)];
+	// Execute its unvisited parent node (if there is an edge from parent node to current node),
+	// terminate when all nodes are visited
+	while (counter != sizeof(graph.arc)) {
+		for (i = 0; i < sizeof(graph.arc); i++) {
+			for (j = 0; j < sizeof(graph.arc[0]); j++) {
+				if (vexs[j] == input && arc[i][j] == 1 && visited[i] != 1) {
+					execute(vexs[i]);
+					vistied[i] = 1;
+					counter++;
+				}
+			}		
 		}
+		// Recursively update parent node
+		input = vexs[i];
 	}
-} */
+}
