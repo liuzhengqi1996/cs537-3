@@ -37,7 +37,7 @@ Node **parser(char *path) {
 		// Size of input buffer
 		int BUFFSIZE = 1024;
 		char *buffer = (char*) malloc(sizeof(char) * BUFFSIZE);
-		char *temp = (char*) malloc(sizeof(char) * BUFFSIZE);
+		char *temp;
 		int lineNum = 1;
 		int i = 0;
 		

@@ -24,13 +24,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include "parser.h"
-#include "process.h"
 #include "graph.h"
+#include "process.h"
 
 extern Graph *build_graph(struct Node **input);
 extern Node *create_tar_node(struct Node *input);
 extern Node *create_file_node(char *input);
-extern int find(char *input, Node **vexs);
+extern int find(char *input, Node *vexs[MAXVEX]);
 extern int *post_order_traversal(struct Graph *graph, struct Node *input);
 
 /*
@@ -59,21 +59,21 @@ Graph *build_graph(struct Node **input) {
 		    dep_count++;
 		}
 		for (int j = 0; j < dep_count; j++){
-			char * dest = input[i] -> dependence[j];
-		int finder = find(dest,graph-> vexs);
-		// Change arc to 1 if the node is connected to its child,
-		// create a file node for non-target node
-		if (finder == -1) {
-			Node *newNode = create_file_node(dest);
-			int newvex = vex_counter;
-			graph -> vexs[vex_counter] = newNode;
-			vex_counter++;
-			graph -> arc[i][newvex] = 1;
+			char *dest = input[i] -> dependence[j];
+			int finder = find(dest, graph -> vexs);
+			// Change arc to 1 if the node is connected to its child,
+			// create a file node for non-target node
+			if (finder == -1) {
+				Node *newNode = create_file_node(dest);
+				int newvex = vex_counter;
+				graph -> vexs[vex_counter] = newNode;
+				vex_counter++;
+				graph -> arc[i][newvex] = 1;
+			}
+			else {
+				graph -> arc[i][finder] = 1;
+			}
 		}
-		else {
-			graph -> arc[i][finder] = 1;
-		}
-						}
 	} 
 
     /*
@@ -98,7 +98,7 @@ Node *create_tar_node(struct Node *input) {
 	return node;
 }
 
-Node *create_file_node(char * input){
+Node *create_file_node(char *input){
     struct Node *node = (struct Node*) malloc(sizeof(struct Node));
     node -> target = input;
     node -> dependence = NULL;
@@ -109,10 +109,12 @@ Node *create_file_node(char * input){
 /*
  * find - Check if a node has already been visited as a target.
  */
-int find ( char *input , Node **vexs ){
+int find(char *input, Node *vexs[MAXVEX]){
     for (int i = 0; i < MAXVEX; i++){
-        char *s = vexs[i] -> target;
-        if(strcmp(input,s) == 0) {return i;}
+		//char *s = vexs[i] -> target;
+		if (strcmp(input, vexs[i] -> target) == 0) {
+			return i;
+		}
     }
     return -1;
 }
@@ -121,27 +123,18 @@ int find ( char *input , Node **vexs ){
  * post_order_traversal - traverse the graph in a bottom-up order and execute each node
  */
 int *post_order_traversal(struct Graph *graph, struct Node *input) {
-	// Execute the node itself
-	execute(input);
+	if (graph -> num_visited == MAXVEX) {
+		execute(input);
+	}
 	
-	int i = 0;
-	int j = 0;
-	int counter = 0;
-	int visited[sizeof(graph -> arc)];
-	// Execute its unvisited parent node (if there is an edge from parent node to current node),
-	// terminate when all nodes are visited
-	while (counter != MAXVEX) {
-		for (i = 0; i < MAXVEX; i++) {
-			for (j = 0; j < MAXVEX; j++) {
-				if (graph ->vexs[j] == input && graph -> arc[i][j] == 1 && visited[i] != 1) {
-					execute(graph -> vexs[i]);
-					visited[i] = 1;
-					counter++;
-				}
-			}		
+	for (int i = 0; i < MAXVEX; i++) {
+		for (int j = 0; j < MAXVEX; j++) {
+			if (graph -> vexs[j] == input && graph -> arc[i][j] == 1 && graph -> visited[i] != 1) {
+				graph -> visited[i] = 1;
+				graph -> num_visited++;
+				post_order_traversal(graph, graph -> vexs[i]);
+			}
 		}
-		// Recursively update parent node
-		input = graph -> vexs[i];
 	}
 	return 0;
 }

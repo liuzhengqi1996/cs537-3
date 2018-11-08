@@ -37,10 +37,11 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
-#include "process.h"
 #include "parser.h"
+#include "graph.h"
+#include "process.h"
 
-extern void execute(struct  Node *input);
+extern void execute(struct Node *input);
 
 /*
  * execute - run build command in a new process, waiting for its completion, 
@@ -97,6 +98,11 @@ void execute(struct Node *input) {
 						// Fork child process
 						if (child_pid == 0) {
 							// Execute command, if execvp fails, print error message and terminate program
+							int i = 0;
+							while (input -> command[i] != NULL) {
+								i++;
+							}
+							input -> command[i] = '\0';
 							if (execvp(input -> command[0], input -> command) < 0) {
 								fprintf(stderr, "Cannot do execvp for child process.\n");
 								exit(1);
@@ -146,5 +152,4 @@ void execute(struct Node *input) {
 			}
 		}
 	}
-//	return 0;
 }

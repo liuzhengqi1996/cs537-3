@@ -31,22 +31,24 @@ int main(int argc, char *argv[]) {
     // "-f" option of make to specify a custom file name.)
     
     // If command line arguments does not begin with 537make, print the proper format and exit
+	/*
     if (argc < 1) {
         fprintf(stderr, "%s\n", "Proper format begins with 537make.\n");
         exit(1);
     }
-    
+    */
+	/*
     if(strcmp(argv[0], "537make") != 0) {
         fprintf(stderr, "%s\n", "Proper format starts with 537make.\n");
         exit(1);
     }
-    
+	*/
     // Pointers for file
     FILE *fp;
     
     // Set path to be makefile
     char *path1;
-	path1 = "/makefile";
+	path1 = "makefile";
     
     // Try to open makefile
     fp = fopen(path1, "r");
@@ -57,10 +59,13 @@ int main(int argc, char *argv[]) {
         if (argc == 1){
             Node **parserline = parser(path1);
             Graph *G = build_graph(parserline);
+			/*
             int n = G -> num_vertices;
             for(int i= 0; i < n; i++) {
 				post_order_traversal(G, G -> vexs[n - i + 1]);
             }
+			*/
+			post_order_traversal(G, G -> vexs[0]);
         }
 		// Otherwise, execute the file after 537make
         else {
@@ -95,15 +100,18 @@ int main(int argc, char *argv[]) {
 			Node **parserline = parser(path1);
 			Graph *G = build_graph(parserline);
 			int finder = find(argv[1], G -> vexs);
+			post_order_traversal(G, G -> vexs[finder]);
+			/*
 			for (int i= G -> num_vertices - 1; i > finder; i--) {
 				post_order_traversal(G, G -> vexs[i]);
-			}   
+			}
+			*/
         }
 	}
 	// If makefile can't be found, try to open Makefile
 	else {
 		char *path2;
-		path2 = "/Makefile";
+		path2 = "Makefile";
 		fp = fopen(path2, "r");
 		if(fp == NULL){
 			fprintf(stderr, "%s\n", "Cannnot find makefile or Makefile.");
@@ -115,19 +123,25 @@ int main(int argc, char *argv[]) {
 			if (argc == 1) {
 				Node **parserline = parser(path2);
 				Graph *G = build_graph(parserline);
+				/*
 				int n = G -> num_vertices;
 				for(int i = 0; i < n; i++) {
 					post_order_traversal(G, G -> vexs[n - i + 1]);
 				}
+				*/
+				post_order_traversal(G, G -> vexs[0]);
 			}
 			// Otherwise, execute the file after 537make
             else {
 				Node **parserline = parser(path2);
 				Graph *G = build_graph(parserline);
 				int finder = find(argv[1], G -> vexs);
+				/*
 				for (int i = G -> num_vertices - 1; i > finder; i--){
 					post_order_traversal(G, G -> vexs[i]);
 				}
+				*/
+				post_order_traversal(G, G -> vexs[finder]);
 			}
 		}
 	}                                           

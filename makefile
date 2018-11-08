@@ -19,16 +19,16 @@ all: main.o parser.o graph.o process.o
 	$(CC) -o $(EXE) main.o parser.o graph.o process.o
 
 main.o: main.c parser.h graph.h process.h
-	$(CC) $(WARNING_FLAGS) -c main.c
+	$(CC) $(WARNING_FLAGS) -g -c main.c
 
 parser.o: parser.c parser.h
-	$(CC) $(WARNING_FLAGS) -c parser.c
+	$(CC) $(WARNING_FLAGS) -g -c parser.c
 
 graph.o: graph.c parser.h graph.h
-	$(CC) $(WARNING_FLAGS) -c graph.c
+	$(CC) $(WARNING_FLAGS) -g -c graph.c
 	
 process.o: process.c parser.h process.h
-	$(CC) $(WARNING_FLAGS) -c process.c
+	$(CC) $(WARNING_FLAGS) -g -c process.c
 	
 clean:
 	rm -f $(EXE) *.o

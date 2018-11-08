@@ -9,25 +9,16 @@
 // CS Login:         zhengqi, tian
 // NetID:            mliu292, tzheng24
 ////////////////////////////////////////////////////////////////////////////////
-/*
-// Structure for node in graph
-typedef struct Node {
-	char *target;
-	char **dependence;
-	char **command;
-} Node;
-*/
 
 #define MAXVEX 20
 
 // Structure for graph
 typedef struct Graph {
 	int num_vertices;
-    Node * vexs[MAXVEX];
+    Node *vexs[MAXVEX];
     int arc[MAXVEX][MAXVEX];
-  
-	//struct Node **adjacency_list;
-   
+	int visited[MAXVEX];
+	int num_visited;
 } Graph;
 
 /*
@@ -42,7 +33,6 @@ Graph *build_graph(struct Node **input);
  */
 Node *create_tar_node(struct Node *input);
 
-
 /*
  * create_create_node - create a node and initialize with input string structure for a non-target file.
  */
@@ -51,7 +41,7 @@ Node *create_file_node(char *input);
 /*
  * find - find whether a point has been built
  */
-int find(char *input, Node **vexs);
+int find(char *input, Node *vexs[MAXVEX]);
 
 /*
  * post_order_traversal - traverse the graph in a bottom-up order and execute each node
