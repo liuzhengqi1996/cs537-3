@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
     
     // Set path to be makefile
     char *path1;
-    path1 = "/makefile";
+	path1 = "/makefile";
     
     // Try to open makefile
     fp = fopen(path1, "r");
@@ -59,77 +59,77 @@ int main(int argc, char *argv[]) {
             Graph *G = build_graph(parserline);
             int n = G -> num_vertices;
             for(int i= 0; i < n; i++) {
-                post_order_traversal(G, G -> vexs[n - i + 1]);
+				post_order_traversal(G, G -> vexs[n - i + 1]);
             }
         }
-        // Otherwise, execute the file after 537make
+		// Otherwise, execute the file after 537make
         else {
-            if (strcmp(argv[1], "clean") == 0) {
-                if (argc > 2) {
-                    for (int i = 2; i < argc; i++) {
-                        if (remove(argv[i]) < 0) {
-                            fprintf(stderr, "%s\n", "Cannnot remove file.");
-                            exit(1);
-                        }
-                    }
-                    return 0;
-                }
-                else {
-                    DIR *dir;
-                    struct dirent *de;
-                    dir = opendir ("./");
-                    if (dir != NULL) {
-                        while ((de = readdir(dir)) != NULL) {
-                            int length = strlen(de -> d_name);
-                            if (strncmp(de -> d_name + length - 2, ".o", 2) == 0) {
-                                if (remove(de -> d_name) < 0) {
-                                    fprintf(stderr, "%s\n", "Cannnot remove file.");
-                                    exit(1);
-                                }
-                            }
-                        }
-                        closedir (dir);
-                    }
-                }
-            }
-            Node **parserline = parser(path1);
-            Graph *G = build_graph(parserline);
-            int finder = find(argv[1], G -> vexs);
-            for (int i= G -> num_vertices - 1; i > finder; i--) {
-                post_order_traversal(G, G -> vexs[i]);
-            }
+			if (strcmp(argv[1], "clean") == 0) {
+				if (argc > 2) {
+					for (int i = 2; i < argc; i++) {
+						if (remove(argv[i]) < 0) {
+							fprintf(stderr, "%s\n", "Cannnot remove file.");
+							exit(1);
+						}
+					}
+					return 0;
+				}
+				else {
+					DIR *dir;
+					struct dirent *de;     
+					dir = opendir ("./");
+					if (dir != NULL) {
+						while ((de = readdir(dir)) != NULL) {
+						int length = strlen(de -> d_name);
+						if (strncmp(de -> d_name + length - 2, ".o", 2) == 0) {
+							if (remove(de -> d_name) < 0) {
+								fprintf(stderr, "%s\n", "Cannnot remove file.");
+								exit(1);
+							}
+						}
+					}
+					closedir (dir);
+					}
+				}
+			}
+			Node **parserline = parser(path1);
+			Graph *G = build_graph(parserline);
+			int finder = find(argv[1], G -> vexs);
+			for (int i= G -> num_vertices - 1; i > finder; i--) {
+				post_order_traversal(G, G -> vexs[i]);
+			}   
         }
-    }
-    // If makefile can't be found, try to open Makefile
-    else {
-        char *path2;
-        path2 = "/Makefile";
-        fp = fopen(path2, "r");
-        if(fp == NULL){
-            fprintf(stderr, "%s\n", "Cannnot find makefile or Makefile.");
-            exit(1);
-        }
-        // If Makefile is found, use it to run
-        else {
-            // If command line contains only 537make
-            if (argc == 1) {
-                Node **parserline = parser(path2);
-                Graph *G = build_graph(parserline);
-                int n = G -> num_vertices;
-                for(int i = 0; i < n; i++) {
-                    post_order_traversal(G, G -> vexs[n - i + 1]);
-                }
-            }
-            // Otherwise, execute the file after 537make
+	}
+	// If makefile can't be found, try to open Makefile
+	else {
+		char *path2;
+		path2 = "/Makefile";
+		fp = fopen(path2, "r");
+		if(fp == NULL){
+			fprintf(stderr, "%s\n", "Cannnot find makefile or Makefile.");
+			exit(1);
+		}
+		// If Makefile is found, use it to run
+		else {
+			// If command line contains only 537make
+			if (argc == 1) {
+				Node **parserline = parser(path2);
+				Graph *G = build_graph(parserline);
+				int n = G -> num_vertices;
+				for(int i = 0; i < n; i++) {
+					post_order_traversal(G, G -> vexs[n - i + 1]);
+				}
+			}
+			// Otherwise, execute the file after 537make
             else {
-                Node **parserline = parser(path2);
-                Graph *G = build_graph(parserline);
-                int finder = find(argv[1], G -> vexs);
-                for (int i = G -> num_vertices - 1; i > finder; i--){
-                    post_order_traversal(G, G -> vexs[i]);
-                }
-            }
-        }
-    }
-    return 0;
+				Node **parserline = parser(path2);
+				Graph *G = build_graph(parserline);
+				int finder = find(argv[1], G -> vexs);
+				for (int i = G -> num_vertices - 1; i > finder; i--){
+					post_order_traversal(G, G -> vexs[i]);
+				}
+			}
+		}
+	}                                           
+	return 0;
 }

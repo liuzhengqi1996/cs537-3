@@ -23,5 +23,3 @@ typedef struct Node {
  * out blank lines.
  */
 Node **parser(char *path);
-
-void execute(struct Node *input);
