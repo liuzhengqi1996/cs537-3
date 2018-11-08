@@ -26,8 +26,7 @@ scan-build: Run 'scan-view /tmp/scan-build-2018-11-08-111455-23551-1' to examine
 # [tian@rockhopper-03] (6)$ ../537make
 # [tian@rockhopper-03] (7)$ pwd
 /u/t/i/tian/private/cs537/p3/test/advanced_cycle_testcase
-# [tian@rockhopper-03] (8)$ cd..
-cd..: command not found
+
 # [tian@rockhopper-03] (9)$ cd ..
 # [tian@rockhopper-03] (10)$ pwd
 /u/t/i/tian/private/cs537/p3/test
@@ -53,4 +52,7 @@ Reading symbols from ../537make...done.
 # (gdb) run ../537make
 Starting program: /afs/cs.wisc.edu/u/t/i/tian/private/cs537/p3/test/537make ../537make
 [Inferior 1 (process 23834) exited normally]
-# (gdb)
+# use GDB breakpoints
+# (gdb) break graph.c:post_order_traversal
+# (gdb) break process.c:execute
+
