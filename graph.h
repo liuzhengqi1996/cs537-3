@@ -56,4 +56,4 @@ int find(char *input, Node **vexs);
 /*
  * post_order_traversal - traverse the graph in a bottom-up order and execute each node
  */
-void *post_order_traversal(struct Graph *graph, struct Node *input);
+int *post_order_traversal(struct Graph *graph, struct Node *input);

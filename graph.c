@@ -27,12 +27,11 @@
 #include "process.h"
 #include "graph.h"
 
-
 extern Graph *build_graph(struct Node **input);
 extern Node *create_tar_node(struct Node *input);
 extern Node *create_file_node(char *input);
 extern int find(char *input, Node **vexs);
-extern void *post_order_traversal(struct Graph *graph, struct Node *input);
+extern int *post_order_traversal(struct Graph *graph, struct Node *input);
 
 /*
  * build_graph - create, update, and access a build specification; build the graph that 
@@ -121,7 +120,7 @@ int find ( char *input , Node **vexs ){
 /*
  * post_order_traversal - traverse the graph in a bottom-up order and execute each node
  */
-void *post_order_traversal(struct Graph *graph, struct Node *input) {
+int *post_order_traversal(struct Graph *graph, struct Node *input) {
 	// Execute the node itself
 	execute(input);
 	
@@ -131,9 +130,9 @@ void *post_order_traversal(struct Graph *graph, struct Node *input) {
 	int visited[sizeof(graph -> arc)];
 	// Execute its unvisited parent node (if there is an edge from parent node to current node),
 	// terminate when all nodes are visited
-	while (counter != sizeof(graph -> arc)) {
-		for (i = 0; i < sizeof(graph -> arc); i++) {
-			for (j = 0; j < sizeof(graph -> arc[0]); j++) {
+	while (counter != MAXVEX) {
+		for (i = 0; i < MAXVEX; i++) {
+			for (j = 0; j < MAXVEX; j++) {
 				if (graph ->vexs[j] == input && graph -> arc[i][j] == 1 && visited[i] != 1) {
 					execute(graph -> vexs[i]);
 					visited[i] = 1;
@@ -144,4 +143,5 @@ void *post_order_traversal(struct Graph *graph, struct Node *input) {
 		// Recursively update parent node
 		input = graph -> vexs[i];
 	}
+	return 0;
 }
