@@ -37,6 +37,7 @@ Node **parser(char *path) {
 		// Size of input buffer
 		int BUFFSIZE = 1024;
 		char *buffer = (char*) malloc(sizeof(char) * BUFFSIZE);
+		char *temp = (char*) malloc(sizeof(char) * BUFFSIZE);
 		int lineNum = 1;
 		int i = 0;
 		
@@ -44,6 +45,9 @@ Node **parser(char *path) {
 		struct Node **s = (struct Node **) malloc(sizeof(struct Node*) * BUFFSIZE);
 		for (int i = 0; i < BUFFSIZE; i++) {
 			s[i] = malloc(sizeof(struct Node));
+			s[i] -> target = (char *) malloc(sizeof(char) * BUFFSIZE);
+			s[i] -> dependence = (char **) malloc(sizeof(char*) * BUFFSIZE);
+			s[i] -> command = (char **) malloc(sizeof(char*) * BUFFSIZE);
 		}
 		
 		// Parse target, dependence, command
@@ -64,19 +68,20 @@ Node **parser(char *path) {
 			}
 			// If an invalid line (first char is not a number or a letter) is detected, 
 			// print error message and terminate the program
+			/*
 			else if (!((buffer[0] >= '0' && buffer[0] <= '9') || (buffer[0] >= 'A' && buffer[0] <= 'Z') || (buffer[0] >= 'a' && buffer[0] <= 'z'))) {
 				fprintf(stderr, "%d: %s %s\n", lineNum, "Invalid line:", buffer);
 				exit(1);
 			}
+			*/
 			// Otherwise, allocate memory for target, dependence, command
 			else {
-				s[i] -> target = (char *) malloc(sizeof(char) * BUFFSIZE);
-				s[i] -> dependence = (char **) malloc(sizeof(char*) * BUFFSIZE);
-				s[i] -> command = (char **) malloc(sizeof(char*) * BUFFSIZE);
-				
 				// Check if the line is a target line
 				// The target starts on the first character of a line and ends with a ":" character
-				if ((s[i] -> target = strtok(buffer, ":")) != NULL) {
+				if ((temp = strtok(buffer, ":")) != NULL) {
+					// Increment struct count for a new target
+					if (s[i] -> target != NULL) {i++;}
+					s[i] -> target = temp;
 					// Dependence names are after ":" character and each is separated by one or more spaces
 					int j = 0;
 					while ((s[i] -> dependence[j] = strtok(NULL, " ")) != NULL) {
@@ -85,9 +90,10 @@ Node **parser(char *path) {
 				}
 				// Check if the line is a command line
 				// A command line always starts with a tab character (not spaces)
-				else if ((s[i] -> target = strtok(buffer, "\t")) != NULL) {
+				else if (buffer[0] == '\t') {
 					// Arguments are after tab character and each is separated by one or more spaces or tabs
 					int j = 0;
+					strtok(buffer, "\t");
 					while ((s[i] -> command[j] = strtok(NULL, " \t")) != NULL) {
 						j++;
 					}
