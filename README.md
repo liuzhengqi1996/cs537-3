@@ -50,7 +50,7 @@ Find the GDB manual and other documentation resources online at:
 For help, type "help".
 Type "apropos word" to search for commands related to "word"...
 Reading symbols from ../537make...done.
-(gdb) run ../537make
+# (gdb) run ../537make
 Starting program: /afs/cs.wisc.edu/u/t/i/tian/private/cs537/p3/test/537make ../537make
 [Inferior 1 (process 23834) exited normally]
-(gdb)
+# (gdb)
