@@ -160,5 +160,4 @@ Node ** parser(char *path) {
             return s;
         }
     }
-    157,1         Bot
-
+    
