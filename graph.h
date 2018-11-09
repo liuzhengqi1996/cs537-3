@@ -16,7 +16,7 @@
 typedef struct Graph {
 	int num_vertices;
 	// List of nodes
-    Node *vexs[MAXVEX];
+    Node **vexs;
 	// Adajacency matrix
     int arc[MAXVEX][MAXVEX];
 	int visited[MAXVEX];

@@ -32,7 +32,7 @@ int main(int argc, char *argv[]) {
 	
     // Set path to be makefile
 	char *path1;
-	path1 = "makefile";
+	path1 = "makefile1";
 	
     // Try to open makefile
 	fp = fopen(path1, "r");
@@ -40,11 +40,29 @@ int main(int argc, char *argv[]) {
 	// If makefile is found, use it to run
 	if(fp != NULL){
 		// If command line contains only 537make
+		int BUFFSIZE=1024;
+ struct Node **parserline = (struct Node **) malloc(sizeof(struct Node*) * BUFFSIZE);
+                for (int i = 0; i < BUFFSIZE; i++) {
+                        parserline[i] = malloc(sizeof(struct Node));
+                        parserline[i] -> target = (char *) malloc(sizeof(char) * BUFFSIZE);
+                        parserline[i] -> dependence = (char **) malloc(sizeof(char*) * BUFFSIZE);
+                        parserline[i] -> command =(char***) malloc (sizeof(char*)*(BUFFSIZE*BUFFSIZE));
+                        for(int j=0;j<BUFFSIZE;j++){
+                        parserline[i] -> command[j] = (char **) malloc(sizeof(char*) * 200);
+                	        }
+
+		                        }
 		if (argc == 1){
-			Node **parserline = parser(path1);
+
+			Node ** parserline = parser(path1);
+			printf("mian fun tar:%s\n",parserline[1] ->target);
+			printf("parser success\n");
 			Graph *G = build_graph(parserline);
+			printf("graph success\n");
 			post_order_traversal(G, G -> vexs[0]);
-		}
+			printf("travesel success\n");
+			}
+		
 		// Otherwise, execute the file after 537make
 		else {
 			if (strcmp(argv[1], "clean") == 0) {
