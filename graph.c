@@ -29,13 +29,13 @@ extern int *post_order_traversal(struct Graph *graph, struct Node *input);
  */
 Graph *build_graph(struct Node **input) {
 	struct Graph *graph = (struct Graph*) malloc(sizeof(struct Graph));
-	int counter = 0;
+	int counter = 1;
 	while (input[counter] != NULL) {
 		counter++;
 	}
 	graph -> num_vertices = counter;
 	// Create all target nodes
-	for (int i = 0; i < counter; i++) {
+	for (int i = 1; i < counter; i++) {
 		Node* newNode = create_tar_node(input[i]);
 		graph -> vexs[i] = newNode;
 	}
@@ -44,7 +44,7 @@ Graph *build_graph(struct Node **input) {
 	}
 	// Counter for all vertices
 	int vex_counter = counter;
-	for (int i = 0; i < counter; i++) {
+	for (int i = 1; i < counter; i++) {
 		// Counter for dependency node
 		int dep_count = 0;
 		while(input[i] -> dependence[dep_count] != NULL) {
