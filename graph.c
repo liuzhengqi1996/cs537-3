@@ -123,9 +123,15 @@ int *post_order_traversal(struct Graph *graph, struct Node *input) {
 		}
 	}
 	
-	// If all child nodes are visited, execute the node
+	// If all child nodes are visited, execute commands for the node
 	if (sum_edge == sum_visited) {
-		execute(input);
+		int cmd_counter = 0;
+		while (input -> command[cmd_counter] != NULL) {
+			cmd_counter++;
+		}
+		for (int i = 0; i < cmd_counter; i++) {
+			execute(input, cmd_counter);
+		}
 		return 0;
 	}
 	

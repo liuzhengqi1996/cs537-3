@@ -14,4 +14,4 @@
  * execute - run build command in a new process, waiting for its completion, 
  * and getting the return code.
  */
-void execute(struct Node *input);
+void execute(struct Node *input, int cmd_num);

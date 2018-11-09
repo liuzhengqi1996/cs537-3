@@ -21,13 +21,13 @@
 #include "graph.h"
 #include "process.h"
 
-extern void execute(struct Node *input);
+extern void execute(struct Node *input, int cmd_num);
 
 /*
  * execute - run build command in a new process, waiting for its completion, 
  * and getting the return code.
  */
-void execute(struct Node *input) {
+void execute(struct Node *input, int cmd_num) {
 	// Pointers for file
 	FILE *fp;
 	
@@ -78,10 +78,10 @@ void execute(struct Node *input) {
 						// Fork child process
 						if (child_pid == 0) {
 							// Execute command, if execvp fails, print error message and terminate program
-							if (execvp(input -> command[0], input -> command) < 0) {
+							if (execvp(input -> command[cmd_num][0], input -> command[cmd_num]) < 0) {
 								fprintf(stderr, "Cannot do execvp for child process.\n");
 								exit(1);
-							}
+							}	
 						}
 						// Run parent process
 						else {
@@ -113,7 +113,7 @@ void execute(struct Node *input) {
 		// Fork child process
 		if (child_pid == 0) {
 			// Execute command, if execvp fails, print error message and terminate program
-			if (execvp(input -> command[0], input -> command) < 0) {
+			if (execvp(input -> command[cmd_num][0], input -> command[cmd_num]) < 0) {
 				fprintf(stderr, "Cannot do execvp for child process.\n");
 				exit(1);
 			}
