@@ -78,11 +78,6 @@ void execute(struct Node *input) {
 						// Fork child process
 						if (child_pid == 0) {
 							// Execute command, if execvp fails, print error message and terminate program
-							int i = 0;
-							while (input -> command[i] != NULL) {
-								i++;
-							}
-							input -> command[i] = '\0';
 							if (execvp(input -> command[0], input -> command) < 0) {
 								fprintf(stderr, "Cannot do execvp for child process.\n");
 								exit(1);
