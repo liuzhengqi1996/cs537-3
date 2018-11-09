@@ -58,7 +58,7 @@ Node ** parser(char *path) {
             s[i] = malloc(sizeof(struct Node));
             s[i] -> target = (char *) malloc(sizeof(char) * BUFFSIZE);
             s[i] -> dependence = (char **) malloc(sizeof(char*) * BUFFSIZE);
-            s[i] -> command =(char***) malloc (sizeof(char*)*(BUFFSIZE*BUFFSIZE));
+            s[i] -> command =(char***) malloc (sizeof(char**)*(BUFFSIZE*BUFFSIZE));
             for(int j=0;j<BUFFSIZE;j++){
                 s[i] -> command[j] = (char **) malloc(sizeof(char*) * 200);
             }
@@ -96,7 +96,6 @@ Node ** parser(char *path) {
                     // Increment struct count for a new target
                     if (s[i] -> target != NULL) {i++;}
                     s[i] -> target = temp;
-                    l=0;
                     // Dependence names are after ":" character and each is separated by one or more spaces
                     int j = 0;
                     while ((s[i] -> dependence[j] = strtok(NULL, " ")) != NULL) {
