@@ -50,7 +50,6 @@ Node ** parser(char *path) {
         char *buffer = (char*) malloc(sizeof(char) * BUFFSIZE);
         char *temp;
         int lineNum = 1;
-        int i = 0;
         
         // Create and allocate memory for String structure
         struct Node **s = (struct Node **) malloc(sizeof(struct Node*) * BUFFSIZE);
@@ -58,13 +57,13 @@ Node ** parser(char *path) {
             s[i] = malloc(sizeof(struct Node));
             s[i] -> target = (char *) malloc(sizeof(char) * BUFFSIZE);
             s[i] -> dependence = (char **) malloc(sizeof(char*) * BUFFSIZE);
-            s[i] -> command =(char***) malloc (sizeof(char*)*(BUFFSIZE*BUFFSIZE));
-            for(int j=0;j<BUFFSIZE;j++){
+            s[i] -> command =(char***) malloc (sizeof(char**) * (BUFFSIZE * BUFFSIZE));
+            for (int j = 0; j < BUFFSIZE; j++) {
                 s[i] = malloc(sizeof(struct Node));
                 s[i] -> target = (char *) malloc(sizeof(char) * BUFFSIZE);
                 s[i] -> dependence = (char **) malloc(sizeof(char*) * BUFFSIZE);
-                s[i] -> command =(char***) malloc (sizeof(char*)*(BUFFSIZE*BUFFSIZE));
-                for(int j=0;j<BUFFSIZE;j++){
+                s[i] -> command =(char***) malloc (sizeof(char**) * (BUFFSIZE*BUFFSIZE));
+                for(int j = 0; j < BUFFSIZE; j++) {
                     s[i] -> command[j] = (char **) malloc(sizeof(char*) * 200);
                 }
             }
@@ -83,22 +82,22 @@ Node ** parser(char *path) {
                  }*/
                 
                 // Skip the blank line
-                //
                 if (buffer[0] == '\n') {
                     continue;
                 }
-                else if(strstr(buffer,"clean") != NULL) {continue;}
+                else if(strstr(buffer, "clean") != NULL) {
+					continue;
+				}
                 else {
                     int l;
                     // Check if the line is a target line
                     // The target starts on the first character of a line and ends with a ":" character
-                    if ( strstr(buffer,":") != NULL) {
+                    if (strstr(buffer,":") != NULL) {
                         temp = strtok(buffer, ":");
-                        ////    printf("target:%s\n",temp);
+                        // printf("target:%s\n",temp);
                         // Increment struct count for a new target
                         if (s[i] -> target != NULL) {i++;}
                         s[i] -> target = temp;
-                        l=0;
                         // Dependence names are after ":" character and each is separated by one or more spaces
                         int j = 0;
                         while ((s[i] -> dependence[j] = strtok(NULL, " ")) != NULL) {
@@ -110,31 +109,30 @@ Node ** parser(char *path) {
                     }
                     // Check if the line is a command line
                     // A command line always starts with a tab character (not spaces)
-                    
                     else if (buffer[0] == '\t') {
-                        //              printf("buffer:%s",buffer);
+                        // printf("buffer:%s",buffer);
                         // Arguments are after tab character and each is separated by one or more spaces or tabs
                         int j = 0;
                         char* ty = strtok(buffer," ");
                         //printf("no.1:%s\n",ty);
                         //printf("i:%d\n",i);
-                        s[i] -> command[l][0]=ty;
+                        s[i] -> command[l][0] = ty;
                         j++;
                         //printf("第一个塞进去了");
                         //printf("ty:%s\n",ty);
-                        char * tempri;
-                        while (( tempri  = strtok(NULL, " ")) != NULL) {
-                            //      printf("cmd:%s\n",tempri);
+                        char *tempri;
+                        while ((tempri = strtok(NULL, " ")) != NULL) {
+                            //printf("cmd:%s\n",tempri);
                             //tempri =strcat(tempri,"\0");
                             s[i] -> command[l][j] =tempri;
                             j++;
                         }
-                        char * last =strtok(NULL,"\n");
-                        s[i] -> command[l][j]=last;
-                        //      printf("%d last:%s\n",j,last);
+                        char *last = strtok(NULL, "\n");
+                        s[i] -> command[l][j] = last;
+                        //printf("%d last:%s\n",j,last);
                         l++;
                         size_t len = 1;
-                        buffer = (char*) calloc(len,100 );
+                        buffer = (char*) calloc(len, 100);
                     }
                     // Otherwise, the line is invalid, print error message and terminate the program
                     else {
@@ -156,8 +154,7 @@ Node ** parser(char *path) {
             printf("7-2-1:command,%s\n",s[7]-> command[1][0]);
             printf("7-2-2:command,%s\n",s[7]-> command[1][1]);
             printf("1:dep:%s\n",s[2] -> dependence[0]);
-            
-            return s;
         }
+		return s;
     }
-    
+}
