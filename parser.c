@@ -96,6 +96,7 @@ Node ** parser(char *path) {
                     // Increment struct count for a new target
                     if (s[i] -> target != NULL) {i++;}
                     s[i] -> target = temp;
+                    l = 0;
                     // Dependence names are after ":" character and each is separated by one or more spaces
                     int j = 0;
                     while ((s[i] -> dependence[j] = strtok(NULL, " ")) != NULL) {
