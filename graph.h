@@ -10,21 +10,21 @@
 // NetID:            mliu292, tzheng24
 ////////////////////////////////////////////////////////////////////////////////
 
-#define MAXVEX 20
+#define MAXVEX 100
 
 // Structure for graph
 typedef struct Graph {
 	int num_vertices;
+	// List of nodes
     Node *vexs[MAXVEX];
+	// Adajacency matrix
     int arc[MAXVEX][MAXVEX];
 	int visited[MAXVEX];
-	int num_visited;
 } Graph;
 
 /*
  * graph - create, update, and access a build specification; build the graph that 
- * represents the dependences between build specifications, and traverse the graph
- * in a bottom-up order to evaluate the specifications (a post-order traversal).
+ * represents the dependences between build specifications.
  */
 Graph *build_graph(struct Node **input);
 
@@ -34,16 +34,16 @@ Graph *build_graph(struct Node **input);
 Node *create_tar_node(struct Node *input);
 
 /*
- * create_create_node - create a node and initialize with input string structure for a non-target file.
+ * create_file_node - create a node and initialize with input string structure for a non-target file.
  */
 Node *create_file_node(char *input);
 
 /*
- * find - find whether a point has been built
+ * find - find whether a node has been built.
  */
 int find(char *input, Node *vexs[MAXVEX]);
 
 /*
- * post_order_traversal - traverse the graph in a bottom-up order and execute each node
+ * post_order_traversal - traverse the graph in a bottom-up order and execute commands for the required node
  */
 int *post_order_traversal(struct Graph *graph, struct Node *input);

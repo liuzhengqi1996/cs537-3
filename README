@@ -1,0 +1,30 @@
+Course: CS 537
+Program: 537make
+Instructor: Barton Miller
+Semester: Fall 2018
+Lecture: Lec 001
+Authors: Zhengqi Liu, Tian Zheng
+CS Login: zhengqi, tian
+NetID: mliu292, tzheng24
+
+This program writes a simple version of the make command, which is called 537make.
+It is executed from a command line, reads a a "makefile" and follows the 
+dependence specifications in the makefile to determine which commands to execute.
+
+This program is divided into four modules.
+
+The main module include a main function that looks for makefile, parses the file
+to build a graph, traverses the graph in a bottom-up order to evaluate the 
+specifications and runs each build command.
+
+The parser module include a function that parses lines in the makefile, 
+splits valid lines into an array of strings including target, dependence, and 
+command, returns array of struct Node.
+
+The graph module includes functions to create node for target and non-target file,
+to build a graph that represents the dependences between build specifications, 
+to find whether a node has been built, to do post order traversal to execute 
+commands for the required node.
+
+The process module includes a function that runs build command in a new process,
+waits for its completion, and gets the return code.

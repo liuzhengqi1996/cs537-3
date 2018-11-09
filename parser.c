@@ -19,8 +19,8 @@ extern Node **parser(char *path);
 
 /*
  * parser - parse lines in the makefile, split a line into an array of strings, 
- * checking whether the line begins with a tab or regular character, and filter
- * out blank lines, return array of struct String
+ * store the line into strings after checking whether the line is valid and 
+ * filtering out blank lines, return array of struct Node.
  */
 Node **parser(char *path) {
 	// Pointers for file
@@ -66,14 +66,6 @@ Node **parser(char *path) {
 			if (buffer[0] == '\n') {
 				break;
 			}
-			// If an invalid line (first char is not a number or a letter) is detected, 
-			// print error message and terminate the program
-			/*
-			else if (!((buffer[0] >= '0' && buffer[0] <= '9') || (buffer[0] >= 'A' && buffer[0] <= 'Z') || (buffer[0] >= 'a' && buffer[0] <= 'z'))) {
-				fprintf(stderr, "%d: %s %s\n", lineNum, "Invalid line:", buffer);
-				exit(1);
-			}
-			*/
 			// Otherwise, allocate memory for target, dependence, command
 			else {
 				// Check if the line is a target line

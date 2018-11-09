@@ -10,16 +10,6 @@
 // NetID:            mliu292, tzheng24
 ////////////////////////////////////////////////////////////////////////////////
 
-// Parent: target
-// Child: dependence node which can further be a target or a file
-// return node (a root node)
-
-// the graph can be an array or linked list to illustrate Adjacency Matrices or Adjacency Lists
-
-// One node would represent a target, its dependences, and commands
-// Do post-order traversal with root node as input to evaluate the specifications
-// Call process method in post-order traversal
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -34,9 +24,8 @@ extern int find(char *input, Node *vexs[MAXVEX]);
 extern int *post_order_traversal(struct Graph *graph, struct Node *input);
 
 /*
- * build_graph - create, update, and access a build specification; build the graph that 
- * represents the dependences between build specifications, and traverse the graph
- * in a bottom-up order to evaluate the specifications (a post-order traversal).
+ * graph - create, update, and access a build specification; build the graph that 
+ * represents the dependences between build specifications.
  */
 Graph *build_graph(struct Node **input) {
 	struct Graph *graph = (struct Graph*) malloc(sizeof(struct Graph));
@@ -47,8 +36,11 @@ Graph *build_graph(struct Node **input) {
 	graph -> num_vertices = counter;
 	// Create all target nodes
 	for (int i = 0; i < counter; i++) {
-		Node* newNode=create_tar_node(input[i]);
+		Node* newNode = create_tar_node(input[i]);
 		graph -> vexs[i] = newNode;
+	}
+	for (int i = counter; i < MAXVEX; i++) {
+		graph -> vexs[i] = NULL;
 	}
 	// Counter for all vertices
 	int vex_counter = counter;
@@ -61,7 +53,7 @@ Graph *build_graph(struct Node **input) {
 		for (int j = 0; j < dep_count; j++){
 			char *dest = input[i] -> dependence[j];
 			int finder = find(dest, graph -> vexs);
-			// Change arc to 1 if the node is connected to its child,
+			// Change arc to 1 in adajacency matrix if the node is connected to its child,
 			// create a file node for non-target node
 			if (finder == -1) {
 				Node *newNode = create_file_node(dest);
@@ -74,21 +66,12 @@ Graph *build_graph(struct Node **input) {
 				graph -> arc[i][finder] = 1;
 			}
 		}
-	} 
-
-    /*
-	graph -> adjacency_list = malloc(counter * sizeof(struct Node*));
-    int i;
-    for (i=0;i<counter;i++){
-        char *s=input[i] -> target;
-        graph -> adjacency_list[s]=NULL;
-        
-    }*/
+	}
 	return graph;
 }
 
 /*
- * create_node - create a node and initialize with input string structure.
+ * create_tar_node - create a node and initialize with input string structure for a target file.
  */
 Node *create_tar_node(struct Node *input) {
 	struct Node *node = (struct Node*) malloc(sizeof(struct Node));
@@ -98,6 +81,9 @@ Node *create_tar_node(struct Node *input) {
 	return node;
 }
 
+/*
+ * create_file_node - create a node and initialize with input string structure for a non-target file.
+ */
 Node *create_file_node(char *input){
     struct Node *node = (struct Node*) malloc(sizeof(struct Node));
     node -> target = input;
@@ -107,11 +93,10 @@ Node *create_file_node(char *input){
 }
 
 /*
- * find - Check if a node has already been visited as a target.
+ * find - find whether a node has been built.
  */
 int find(char *input, Node *vexs[MAXVEX]){
     for (int i = 0; i < MAXVEX; i++){
-		//char *s = vexs[i] -> target;
 		if (strcmp(input, vexs[i] -> target) == 0) {
 			return i;
 		}
@@ -120,19 +105,36 @@ int find(char *input, Node *vexs[MAXVEX]){
 }
 
 /*
- * post_order_traversal - traverse the graph in a bottom-up order and execute each node
+ * post_order_traversal - traverse the graph in a bottom-up order and execute commands for the required node
  */
 int *post_order_traversal(struct Graph *graph, struct Node *input) {
-	if (graph -> num_visited == MAXVEX) {
-		execute(input);
-	}
-	
+	// Sum of number of child nodes the input node has
+	int sum_edge = 0;
+	// Sum of number of visited child node
+	int sum_visited = 0;
 	for (int i = 0; i < MAXVEX; i++) {
 		for (int j = 0; j < MAXVEX; j++) {
-			if (graph -> vexs[j] == input && graph -> arc[i][j] == 1 && graph -> visited[i] != 1) {
-				graph -> visited[i] = 1;
-				graph -> num_visited++;
-				post_order_traversal(graph, graph -> vexs[i]);
+			if (graph -> vexs[i] == input) {
+				sum_edge = sum_edge + graph -> arc[i][j];
+			}
+			if (graph -> vexs[i] == input && graph -> arc[i][j] == 1 && graph -> visited[j] == 1) {
+				sum_visited++;
+			}
+		}
+	}
+	
+	// If all child nodes are visited, execute the node
+	if (sum_edge == sum_visited) {
+		execute(input);
+		return 0;
+	}
+	
+	// Traverse the child node
+	for (int i = 0; i < MAXVEX; i++) {
+		for (int j = 0; j < MAXVEX; j++) {
+			if (graph -> vexs[i] == input && graph -> arc[i][j] == 1 && graph -> visited[j] != 1) {
+				graph -> visited[j] = 1;
+				post_order_traversal(graph, graph -> vexs[j]);
 			}
 		}
 	}

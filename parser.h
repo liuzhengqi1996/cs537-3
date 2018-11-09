@@ -19,7 +19,7 @@ typedef struct Node {
 
 /*
  * parser - parse lines in the makefile, split a line into an array of strings, 
- * checking whether the line begins with a tab or regular character, and filter
- * out blank lines.
+ * store the line into strings after checking whether the line is valid and 
+ * filtering out blank lines, return array of struct Node.
  */
 Node **parser(char *path);

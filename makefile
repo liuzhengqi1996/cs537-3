@@ -24,10 +24,10 @@ main.o: main.c parser.h graph.h process.h
 parser.o: parser.c parser.h
 	$(CC) $(WARNING_FLAGS) -g -c parser.c
 
-graph.o: graph.c parser.h graph.h
+graph.o: graph.c parser.h graph.h process.h
 	$(CC) $(WARNING_FLAGS) -g -c graph.c
 	
-process.o: process.c parser.h process.h
+process.o: process.c parser.h graph.h process.h
 	$(CC) $(WARNING_FLAGS) -g -c process.c
 	
 clean:
