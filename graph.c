@@ -154,7 +154,16 @@ int find(char *input, Node **vexs){
  * post_order_traversal - traverse the graph in a bottom-up order and execute commands for the required node
  */
 int *post_order_traversal(struct Graph *graph, struct Node *input) {
-    // Sum of number of child nodes the input node has
+   int num=graph ->vexs[1] ->num;
+    int n=find(input -> target,graph ->vexs);
+        for(int i=0;i<num;i++){
+                if (graph ->arc[n][i]==1){
+                        post_order_traversal(graph,graph -> vexs[i] );
+                }
+
+        }
+        execute(input);
+	/* // Sum of number of child nodes the input node has
     int sum_edge = 0;
     // Sum of number of visited child node
     int sum_visited = 0;
@@ -189,7 +198,7 @@ int *post_order_traversal(struct Graph *graph, struct Node *input) {
                 post_order_traversal(graph, graph -> vexs[j]);
             }
         }
-    }
+    }*/
     return 0;
 }
 
