@@ -27,71 +27,95 @@
  * in a new process.
  */
 int main(int argc, char *argv[]) {
-    // Pointers for file
+// Pointers for file
     FILE *fp;
-	
+
     // Set path to be makefile
-	char *path1;
-	path1 = "makefile";
-	
+        char *path1;
+        path1 = "makefile11";
+
     // Try to open makefile
-	fp = fopen(path1, "r");
-	
-	// If makefile is found, use it to run
-	if(fp != NULL){
-		// If command line contains only 537make
-		int BUFFSIZE = 1024;
-		struct Node **parserline = (struct Node**) malloc(sizeof(struct Node*) * BUFFSIZE);
+        fp = fopen(path1, "r");
+	if(argc>2 && strcmp(argv[1],"-f")==0){
+	FILE *FP;
+	char* path=argv[2];
+	FP =fopen(path,"r");
+
+	              // If command line contains only 537make
+                int BUFFSIZE=1024;
+ struct Node **parserline = (struct Node **) malloc(sizeof(struct Node*) * BUFFSIZE);
+                for (int i = 0; i < BUFFSIZE; i++) {
+                        parserline[i] = malloc(sizeof(struct Node));
+                        parserline[i] -> target = (char *) malloc(sizeof(char) * BUFFSIZE);
+                        parserline[i] -> dependence = (char **) malloc(sizeof(char*) * BUFFSIZE);
+                        parserline[i] -> command =(char***) malloc (sizeof(char*)*(BUFFSIZE));
+                        for(int j=0;j<BUFFSIZE;j++){
+                        parserline[i] -> command[j] = (char **) malloc(sizeof(char*) * 200);
+                                }
+
+                                        }
+                if (argc == 3){
+
+                        Node ** parserline = parser(path);
+                        Graph *G = build_graph(parserline);
+                        int num= G-> vexs[1] ->num;
+                        //printf("graph success:%d\n",num);
+                        post_order_traversal(G, G -> vexs[1]);
+                        //printf("travesel success\n");
+                        }
+
+
+                // Otherwise, execute the file after 537make
+                else if (strstr(argv[3], "clean") != NULL){
+                 Node**parserline= parser_clean(path);
+                 Graph * G =build_graph(parserline);
+                 int finder=find(argv[3],G -> vexs);
+                 post_order_clean(G,G -> vexs[finder]);
+
+                }
+                else {
+                        Node **parserline = parser(path);
+                        Graph *G = build_graph(parserline);
+                        int finder = find(argv[3], G -> vexs);
+                        post_order_traversal(G, G -> vexs[finder]);
+        }
+        }
 		
-		for (int i = 0; i < BUFFSIZE; i++) {
-			parserline[i] = malloc(sizeof(struct Node));
-			parserline[i] -> target = (char*) malloc(sizeof(char) * BUFFSIZE);
-			parserline[i] -> dependence = (char**) malloc(sizeof(char*) * BUFFSIZE);
-			parserline[i] -> command = (char***) malloc(sizeof(char**) * BUFFSIZE);
-			
-			for (int j = 0; j < BUFFSIZE; j++) {
-				parserline[i] -> command[j] = (char**) malloc(sizeof(char*) * 200);
-			}
-		}
-		if (argc == 1) {
+	// If makefile is found, use it to run
+	else if(fp != NULL){
+		// If command line contains only 537make
+		int BUFFSIZE=1024;
+ struct Node **parserline = (struct Node **) malloc(sizeof(struct Node*) * BUFFSIZE);
+                for (int i = 0; i < BUFFSIZE; i++) {
+                        parserline[i] = malloc(sizeof(struct Node));
+                        parserline[i] -> target = (char *) malloc(sizeof(char) * BUFFSIZE);
+                        parserline[i] -> dependence = (char **) malloc(sizeof(char*) * BUFFSIZE);
+                        parserline[i] -> command =(char***) malloc (sizeof(char*)*(BUFFSIZE));
+                        for(int j=0;j<BUFFSIZE;j++){
+                        parserline[i] -> command[j] = (char **) malloc(sizeof(char*) * 200);
+                	        }
+
+		                        }
+		if (argc == 1){
+
 			Node ** parserline = parser(path1);
 			Graph *G = build_graph(parserline);
+			int num= G-> vexs[1] ->num;
+			//printf("graph success:%d\n",num);
 			post_order_traversal(G, G -> vexs[1]);
-		}
+			//printf("travesel success\n");
+			}
+
 		
 		// Otherwise, execute the file after 537make
+		else if (strstr(argv[1], "clean") != NULL){
+		 Node**parserline= parser_clean(path1);
+		 Graph * G =build_graph(parserline);
+		 int finder=find(argv[1],G -> vexs);
+		 post_order_clean(G,G -> vexs[finder]);
+
+		}
 		else {
-			if (strcmp(argv[1], "clean") == 0) {
-				if (argc > 2) {
-					for (int i = 2; i < argc; i++) {
-						if (remove(argv[i]) < 0) {
-							fprintf(stderr, "%s\n", "Cannnot remove file.");
-							exit(1);
-						}
-					}
-					return 0;
-				}
-				else {
-					DIR *dir;
-					struct dirent *de;     
-					dir = opendir ("./");
-					
-					if (dir != NULL) {
-						while ((de = readdir(dir)) != NULL) {
-							int length = strlen(de -> d_name);
-							if (strncmp(de -> d_name + length - 2, ".o", 2) == 0) {
-								if (remove(de -> d_name) < 0) {
-									fprintf(stderr, "%s\n", "Cannnot remove file.");
-									exit(1);
-								}
-							}
-						}
-						closedir (dir);
-					}
-					return 0;
-				}
-			}
-			
 			Node **parserline = parser(path1);
 			Graph *G = build_graph(parserline);
 			int finder = find(argv[1], G -> vexs);
@@ -99,31 +123,73 @@ int main(int argc, char *argv[]) {
         }
 	}
 	// If makefile can't be found, try to open Makefile
-	else {
+	else  {
 		char *path2;
 		path2 = "Makefile";
 		fp = fopen(path2, "r");
-		
 		if(fp == NULL){
 			fprintf(stderr, "%s\n", "Cannnot find makefile or Makefile.");
 			exit(1);
 		}
+  int BUFFSIZE=1024;
+ struct Node **parserline = (struct Node **) malloc(sizeof(struct Node*) * BUFFSIZE);
+		
+		           for (int i = 0; i < BUFFSIZE; i++) {
+                        parserline[i] = malloc(sizeof(struct Node));
+                        parserline[i] -> target = (char *) malloc(sizeof(char) * BUFFSIZE);
+                        parserline[i] -> dependence = (char **) malloc(sizeof(char*) * BUFFSIZE);
+                        parserline[i] -> command =(char***) malloc (sizeof(char*)*(BUFFSIZE));
+                        for(int j=0;j<BUFFSIZE;j++){
+                        parserline[i] -> command[j] = (char **) malloc(sizeof(char*) * 200);
+                                }
+
+                                        }
+                if (argc == 1){
+
+                        Node ** parserline = parser(path2);
+                        Graph *G = build_graph(parserline);
+                        int num= G-> vexs[1] ->num;
+                        //printf("graph success:%d\n",num);
+                        post_order_traversal(G, G -> vexs[1]);
+                        //printf("travesel success\n");
+                        }
+
+
+                // Otherwise, execute the file after 537make
+                else if (strstr(argv[1], "clean") != NULL){
+                 Node**parserline= parser_clean(path2);
+                 Graph * G =build_graph(parserline);
+                 int finder=find(argv[1],G -> vexs);
+                 post_order_clean(G,G -> vexs[finder]);
+
+                }
+                else {
+                        Node **parserline = parser(path2);
+                        Graph *G = build_graph(parserline);
+                        int finder = find(argv[1], G -> vexs);
+                        post_order_traversal(G, G -> vexs[finder]);
+        }
+		
+		/*
 		// If Makefile is found, use it to run
 		else {
 			// If command line contains only 537make
 			if (argc == 1) {
 				Node **parserline = parser(path2);
 				Graph *G = build_graph(parserline);
-				post_order_traversal(G, G -> vexs[0]);
+				post_order_traversal(G, G -> vexs[1]);
 			}
 			// Otherwise, execute the file after 537make
             else {
-				Node **parserline = parser(path2);
-				Graph *G = build_graph(parserline);
-				int finder = find(argv[1], G -> vexs);
+		    Node **parserline = parser(path2);
+                                Graph *G = build_graph(parserline);
+		    for(int df=1;df<argc;df++){
+				int finder = find(argv[df], G -> vexs);
 				post_order_traversal(G, G -> vexs[finder]);
-			}
-		}
-	}                                           
+		    }	
+		    }
+		}*/
+	}
+		
 	return 0;
 }
