@@ -17,7 +17,7 @@
 
 extern Node **parser(char *path);
 extern char *delete_space(char *pStr);
-extern Node ** parser_clean(char * path);
+
 
 /*
  * parser - parse lines in the makefile, split a line into an array of strings,
@@ -66,11 +66,7 @@ Node **parser(char *path) {
 			
 				continue;
 			}
-			else if (strstr(buffer, "clean") != NULL||strstr(buffer,"rm")!=NULL ) {
-				size_t len = 1;
-				buffer = (char*) calloc(len, 100);
-				continue;
-			}
+			
 			else {
 				int l;
 				// Check if the line is a target line
@@ -159,108 +155,5 @@ char *delete_space(char*s) {
 }
 
 
-Node ** parser_clean(char * path){
- // Pointers for file
-    FILE *fp;
-
-    // Open makefile or Makefile
-    fp = fopen(path, "r");	
-     	if(fp == NULL){
-        printf("Cannnot find makefile/Makefile\n");
-        exit(1);
-    }
-    else {
- //       printf("open succesfully in func parser\n");
-
-        // Size of input buffer
-        int BUFFSIZE = 1024;
-        char *buffer = (char*) malloc(sizeof(char) * BUFFSIZE);
-        char *temp;
-        int lineNum = 1;
-        int i = 0;
-
-        // Create and allocate memory for String structure
-        struct Node **s = (struct Node **) malloc(sizeof(struct Node*) * BUFFSIZE);
-        for (int i = 0; i < BUFFSIZE; i++) {
-            s[i] = malloc(sizeof(struct Node));
-            s[i] -> target = (char *) malloc(sizeof(char) * BUFFSIZE);
-            s[i] -> target = " ";
-            s[i] -> dependence = (char **) malloc(sizeof(char*) * BUFFSIZE);
-            s[i] -> command =(char***) malloc (sizeof(char*)*(BUFFSIZE));
-            for(int j=0;j<BUFFSIZE;j++){
-                s[i] -> command[j] = (char **) malloc(sizeof(char*) * 200);
-            }
-        }
- while (fgets(buffer,100, fp) != NULL) {
-            if (buffer[0] == '\n'||buffer[0]=='#') {
-                continue;
-            }
-	    if (strstr(buffer,"clean") == NULL && strstr(buffer,"rm") == NULL ){
-	      size_t len = 1;
-                buffer = (char*) calloc(len,100 );
-		continue;
-	    
-	    }
-            else if(strstr(buffer,"clean") != NULL|| strstr(buffer,"rm") != NULL) {
-//		    printf("clean:%s",buffer); 
-		    int l;
-                // Check if the line is a target line
-                // The target starts on the first character of a line and ends with a ":" character
-                if ( strstr(buffer,":") != NULL) {
-                    temp = strtok(buffer, ":");
-                    temp=delete_space(temp);
-                    if (s[i] -> target != NULL) {i++;}
-                    s[i] -> target = temp;
-                    l=0;
-                    // Dependence names are after ":" character and each is separated by one or more spaces
-                    int j = 0;
-                    char *temper;
-                    while (( temper = strtok(NULL, " ")) != NULL) {
-                            //char * temper;
-                              // temper = strtok(NULL, " ");
-
-                               temper=delete_space(temper);
-
-                        s[i] -> dependence[j]=temper;
-                            j++;
-                        size_t len = 1;
-                        buffer = (char*) calloc(len,100 );
-                    }
-                }
-                else if (buffer[0] == '\t') {
-//                                  printf("buffer:%s",buffer);
-                    // Arguments are after tab character and each is separated by one or more spaces or tabs
-                    int j = 0;
-                    char* ty = strtok(buffer," ");
-                    ty=delete_space(ty);
-
-                    s[i] -> command[l][0]=ty;
-                    j++;
-                    char * tempri;
-
-                    while (( tempri  = strtok(NULL, " ")) != NULL) {
-                        tempri=delete_space(tempri);
-                            s[i] -> command[l][j] =tempri;
-                        j++;
-                    }
-                    j=j-1;
-                    tempri =  s[i] -> command[l][j];
-                    strcat(tempri,"\0");
-                     s[i] -> command[l][j] =tempri;
-                  /*  char * last =strtok(NULL,"\n");
-                    delete_space(last);
-                    s[i] -> command[l][j]=last;
-                    //      printf("%d last:%s\n",j,last);
-                    */
-                    l++;
-		    size_t len = 1;
-                buffer = (char*) calloc(len,100 );
-                }
-	}
-	}
-
-return s;
-    }
 
 
-}
