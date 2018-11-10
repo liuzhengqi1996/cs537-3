@@ -31,14 +31,37 @@ extern void execute(struct Node *input);
 void execute(struct Node *input) {
 	
 	printf("%s\n", "Execute function starts.");
-	
-	//printf("Input command %s\n", input -> command[cmd_num]);
-	//printf("Input command[0] %s\n", input -> command[cmd_num][0]);
+	/*
+	//printf("Input command %s\n", input -> command[0]);
+	printf("Input command %s\n", input -> command[1][0]);
+	printf("Input command %s\n", input -> command[1][1]);
+	printf("Input command %s\n", input -> command[1][2]);
+	//printf("Input command %s\n", input -> command[0][3]);
 	
 	if (input -> command == NULL || input -> command[0] == NULL || input -> command[0][0] == NULL) {
 		return;
 	}
+	//execvp(input -> command[0][0], input -> command[0]);
+	//execvp(input -> command[1][0], input -> command[1]);
+	//execvp(input -> command[2][0], input -> command[2]);
 	
+	
+	int cmd_counter = 0;
+    while (input -> command[cmd_counter][0] != NULL) {
+		cmd_counter++;
+	}
+	printf("cmd_counter %d\n", cmd_counter);
+	
+	for (int i = 0; i < cmd_counter; i++) {
+		// Execute command, if execvp fails, print error message and terminate program
+		if (execvp(input -> command[i][0], input -> command[i]) < 0) {
+			fprintf(stderr, "Cannot do execvp for child process.\n");
+			exit(1);
+		}
+	}
+	*/
+	
+
 	// Pointers for file
 	FILE *fp;
 	
@@ -76,10 +99,10 @@ void execute(struct Node *input) {
 					// then run command
 					if (difftime(dependence_mtime, modification_time) > 0) {
 						int cmd_counter = 0;
-						while (input -> command[cmd_counter] != NULL) {
+						while (input -> command[cmd_counter][0] != NULL) {
 							cmd_counter++;
 						}
-						for (int i = 0; i < cmd_counter; i++) {
+						for (int j = 0; j < cmd_counter; j++) {
 							// Pid of child process
 							pid_t child_pid;
 							
@@ -94,7 +117,7 @@ void execute(struct Node *input) {
 							// Fork child process
 							if (child_pid == 0) {
 								// Execute command, if execvp fails, print error message and terminate program
-								if (execvp(input -> command[i][0], input -> command[i]) < 0) {
+								if (execvp(input -> command[j][0], input -> command[j]) < 0) {
 									fprintf(stderr, "Cannot do execvp for child process.\n");
 									exit(1);
 								}
@@ -103,7 +126,7 @@ void execute(struct Node *input) {
 							else {
 								// Wait for child process
 								if (wait(&child_status) < 0) {
-									fprintf(stderr, "Cannot do execvp for child process.\n");
+									fprintf(stderr, "Cannot wait for process completion.\n");
 									exit(1);
 								}
 							}
@@ -117,7 +140,7 @@ void execute(struct Node *input) {
 	// If target can't be found, then run command
 	else {
 		int cmd_counter = 0;
-        while (input -> command[cmd_counter] != NULL) {
+        while (input -> command[cmd_counter][0] != NULL) {
             cmd_counter++;
         }
         for (int i = 0; i < cmd_counter; i++) {
@@ -144,10 +167,11 @@ void execute(struct Node *input) {
 			else {
 				// Wait for child process
 				if (wait(&child_status) < 0) {
-					fprintf(stderr, "Cannot do execvp for child process.\n");
+					fprintf(stderr, "Cannot wait for process completion.\n");
 					exit(1);
 				}
 			}
         }
 	}
+	
 }
