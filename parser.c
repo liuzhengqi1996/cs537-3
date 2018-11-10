@@ -66,7 +66,7 @@ Node **parser(char *path) {
 			
 				continue;
 			}
-			else if (strstr(buffer, "clean") != NULL) {
+			else if (strstr(buffer, "clean") != NULL||strstr(buffer,"rm")!=NULL ) {
 				size_t len = 1;
 				buffer = (char*) calloc(len, 100);
 				continue;
