@@ -32,7 +32,7 @@ int main(int argc, char *argv[]) {
 
     // Set path to be makefile
         char *path1;
-        path1 = "makefile11";
+        path1 = "makefile";
 
     // Try to open makefile
         fp = fopen(path1, "r");
