@@ -59,7 +59,7 @@ Node ** parser(char *path) {
             s[i] -> target = (char *) malloc(sizeof(char) * BUFFSIZE);
             s[i] -> target = " ";
             s[i] -> dependence = (char **) malloc(sizeof(char*) * BUFFSIZE);
-            s[i] -> command =(char***) malloc (sizeof(char*)*(BUFFSIZE*BUFFSIZE));
+            s[i] -> command =(char***) malloc (sizeof(char*)*(BUFFSIZE));
             for(int j=0;j<BUFFSIZE;j++){
                 s[i] -> command[j] = (char **) malloc(sizeof(char*) * 200);
             }

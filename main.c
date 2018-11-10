@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
                         parserline[i] = malloc(sizeof(struct Node));
                         parserline[i] -> target = (char *) malloc(sizeof(char) * BUFFSIZE);
                         parserline[i] -> dependence = (char **) malloc(sizeof(char*) * BUFFSIZE);
-                        parserline[i] -> command =(char***) malloc (sizeof(char*)*(BUFFSIZE*BUFFSIZE));
+                        parserline[i] -> command =(char***) malloc (sizeof(char*)*(BUFFSIZE));
                         for(int j=0;j<BUFFSIZE;j++){
                         parserline[i] -> command[j] = (char **) malloc(sizeof(char*) * 200);
                 	        }

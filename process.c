@@ -18,6 +18,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <time.h>
+#include <errno.h>
 #include "parser.h"
 #include "graph.h"
 #include "process.h"
@@ -31,6 +32,7 @@ extern void execute(struct Node *input);
 void execute(struct Node *input) {
 	
 	printf("%s\n", "Execute function starts.");
+	
 	/*
 	//printf("Input command %s\n", input -> command[0]);
 	printf("Input command %s\n", input -> command[1][0]);
@@ -112,6 +114,7 @@ void execute(struct Node *input) {
 							// If fork fails, print error message and terminate program
 							if ((child_pid = fork()) < 0) {
 								fprintf(stderr, "Cannot do fork a child process.\n");
+								printf("Error: %s\n", strerror(errno));
 								exit(1);
 							}
 							// Fork child process
@@ -153,6 +156,7 @@ void execute(struct Node *input) {
 			// If fork fails, print error message and terminate program
 			if ((child_pid = fork()) < 0) {
 				fprintf(stderr, "Cannot do fork a child process.\n");
+				printf("Error: %s\n", strerror(errno));
 				exit(1);
 			}
 			// Fork child process
