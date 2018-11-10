@@ -66,13 +66,7 @@ int main(int argc, char *argv[]) {
 
 
                 // Otherwise, execute the file after 537make
-                else if (strstr(argv[3], "clean") != NULL){
-                 Node**parserline= parser_clean(path);
-                 Graph * G =build_graph(parserline);
-                 int finder=find(argv[3],G -> vexs);
-                 post_order_clean(G,G -> vexs[finder]);
-
-                }
+                
                 else {
                         Node **parserline = parser(path);
                         Graph *G = build_graph(parserline);
@@ -108,13 +102,7 @@ int main(int argc, char *argv[]) {
 
 		
 		// Otherwise, execute the file after 537make
-		else if (strstr(argv[1], "clean") != NULL){
-		 Node**parserline= parser_clean(path1);
-		 Graph * G =build_graph(parserline);
-		 int finder=find(argv[1],G -> vexs);
-		 post_order_clean(G,G -> vexs[finder]);
-
-		}
+		
 		else {
 			Node **parserline = parser(path1);
 			Graph *G = build_graph(parserline);
@@ -156,13 +144,7 @@ int main(int argc, char *argv[]) {
 
 
                 // Otherwise, execute the file after 537make
-                else if (strstr(argv[1], "clean") != NULL){
-                 Node**parserline= parser_clean(path2);
-                 Graph * G =build_graph(parserline);
-                 int finder=find(argv[1],G -> vexs);
-                 post_order_clean(G,G -> vexs[finder]);
-
-                }
+               
                 else {
                         Node **parserline = parser(path2);
                         Graph *G = build_graph(parserline);
