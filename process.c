@@ -17,6 +17,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <time.h>
 #include "parser.h"
 #include "graph.h"
 #include "process.h"
@@ -28,6 +29,9 @@ extern void execute(struct Node *input, int cmd_num);
  * and getting the return code.
  */
 void execute(struct Node *input, int cmd_num) {
+	
+	printf("%s\n", "Execute function starts.");
+	
 	// Pointers for file
 	FILE *fp;
 	
@@ -63,7 +67,7 @@ void execute(struct Node *input, int cmd_num) {
 					time_t dependence_mtime = file.st_mtime;
 					// If the dependence file has earlier modification time, 
 					// then run command
-					if (dependence_mtime < modification_time) {
+					if (difftime(dependence_mtime, modification_time) < 0) {
 						// Pid of child process
 						pid_t child_pid;
 						
