@@ -67,7 +67,7 @@ void execute(struct Node *input, int cmd_num) {
 					time_t dependence_mtime = file.st_mtime;
 					// If the dependence file has earlier modification time, 
 					// then run command
-					if (difftime(dependence_mtime, modification_time) < 0) {
+					if (difftime(dependence_mtime, modification_time) > 0) {
 						// Pid of child process
 						pid_t child_pid;
 						
@@ -85,7 +85,7 @@ void execute(struct Node *input, int cmd_num) {
 							if (execvp(input -> command[cmd_num][0], input -> command[cmd_num]) < 0) {
 								fprintf(stderr, "Cannot do execvp for child process.\n");
 								exit(1);
-							}	
+							}
 						}
 						// Run parent process
 						else {
