@@ -154,7 +154,7 @@ int find(char *input, Node **vexs){
  * post_order_traversal - traverse the graph in a bottom-up order and execute commands for the required node
  */
 int *post_order_traversal(struct Graph *graph, struct Node *input) {
-   int num=graph ->vexs[1] ->num;
+   int num=graph ->vexs[1] ->num+1;
     int n=find(input -> target,graph ->vexs);
         for(int i=0;i<num;i++){
                 if (graph ->arc[n][i]==1){
