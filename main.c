@@ -61,36 +61,6 @@ int main(int argc, char *argv[]) {
 		
 		// Otherwise, execute the file after 537make
 		else {
-			if (strcmp(argv[1], "clean") == 0) {
-				if (argc > 2) {
-					for (int i = 2; i < argc; i++) {
-						if (remove(argv[i]) < 0) {
-							fprintf(stderr, "%s\n", "Cannnot remove file.");
-							exit(1);
-						}
-					}
-					return 0;
-				}
-				else {
-					DIR *dir;
-					struct dirent *de;     
-					dir = opendir ("./");
-					
-					if (dir != NULL) {
-						while ((de = readdir(dir)) != NULL) {
-							int length = strlen(de -> d_name);
-							if (strncmp(de -> d_name + length - 2, ".o", 2) == 0) {
-								if (remove(de -> d_name) < 0) {
-									fprintf(stderr, "%s\n", "Cannnot remove file.");
-									exit(1);
-								}
-							}
-						}
-						closedir (dir);
-					}
-					return 0;
-				}
-			}
 			
 			Node **parserline = parser(path1);
 			Graph *G = build_graph(parserline);
