@@ -30,4 +30,4 @@ Node **parser(char *path);
  */
 char *delete_space(char *pStr);
 
-Node ** parser_clean(char * path);
+
