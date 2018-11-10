@@ -19,7 +19,7 @@ typedef struct Graph {
     Node **vexs;
     // Adajacency matrix
     int arc[MAXVEX][MAXVEX];
-    int visited[MAXVEX];
+    int iterator;
 } Graph;
 
 /*
@@ -31,7 +31,7 @@ Graph *build_graph(struct Node **input);
 /*
  * create_tar_node - create a node and initialize with input string structure for a target file.
  */
-Node *create_tar_node(struct Node *input,int n );
+Node *create_tar_node(struct Node *input, int n);
 
 /*
  * create_file_node - create a node and initialize with input string structure for a non-target file.

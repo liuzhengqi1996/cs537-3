@@ -30,40 +30,6 @@ extern void execute(struct Node *input);
  * and getting the return code.
  */
 void execute(struct Node *input) {
-	
-	printf("%s\n", "Execute function starts.");
-	
-	/*
-	//printf("Input command %s\n", input -> command[0]);
-	printf("Input command %s\n", input -> command[1][0]);
-	printf("Input command %s\n", input -> command[1][1]);
-	printf("Input command %s\n", input -> command[1][2]);
-	//printf("Input command %s\n", input -> command[0][3]);
-	
-	if (input -> command == NULL || input -> command[0] == NULL || input -> command[0][0] == NULL) {
-		return;
-	}
-	//execvp(input -> command[0][0], input -> command[0]);
-	//execvp(input -> command[1][0], input -> command[1]);
-	//execvp(input -> command[2][0], input -> command[2]);
-	
-	
-	int cmd_counter = 0;
-    while (input -> command[cmd_counter][0] != NULL) {
-		cmd_counter++;
-	}
-	printf("cmd_counter %d\n", cmd_counter);
-	
-	for (int i = 0; i < cmd_counter; i++) {
-		// Execute command, if execvp fails, print error message and terminate program
-		if (execvp(input -> command[i][0], input -> command[i]) < 0) {
-			fprintf(stderr, "Cannot do execvp for child process.\n");
-			exit(1);
-		}
-	}
-	*/
-	
-
 	// Pointers for file
 	FILE *fp;
 	
@@ -76,7 +42,7 @@ void execute(struct Node *input) {
 	fp = fopen(path1, "r");
 	
 	// If target is found, check its modification time
-	if(fp != NULL){
+	if (fp != NULL) {
 		struct stat file;
 		// If stat fails, print error message and terminate program
 		if (stat(path1, &file) == -1) {
@@ -97,13 +63,16 @@ void execute(struct Node *input) {
 				// found, compare it to the modification time of target file
 				if (stat(path1, &dfile) == 0) {
 					time_t dependence_mtime = file.st_mtime;
+					
 					// If the dependence file has earlier modification time, 
 					// then run command
 					if (difftime(dependence_mtime, modification_time) > 0) {
 						int cmd_counter = 0;
+						
 						while (input -> command[cmd_counter][0] != NULL) {
 							cmd_counter++;
 						}
+						
 						for (int j = 0; j < cmd_counter; j++) {
 							// Pid of child process
 							pid_t child_pid;
@@ -117,11 +86,13 @@ void execute(struct Node *input) {
 								printf("Error: %s\n", strerror(errno));
 								exit(1);
 							}
-							// Fork child process
+							
+							// Run child process
 							if (child_pid == 0) {
 								// Execute command, if execvp fails, print error message and terminate program
 								if (execvp(input -> command[j][0], input -> command[j]) < 0) {
 									fprintf(stderr, "Cannot do execvp for child process.\n");
+									printf("Error: %s\n", strerror(errno));
 									exit(1);
 								}
 							}
@@ -130,6 +101,7 @@ void execute(struct Node *input) {
 								// Wait for child process
 								if (wait(&child_status) < 0) {
 									fprintf(stderr, "Cannot wait for process completion.\n");
+									printf("Error: %s\n", strerror(errno));
 									exit(1);
 								}
 							}
@@ -146,6 +118,7 @@ void execute(struct Node *input) {
         while (input -> command[cmd_counter][0] != NULL) {
             cmd_counter++;
         }
+		
         for (int i = 0; i < cmd_counter; i++) {
 			// Pid of child process
 			pid_t child_pid;
@@ -159,11 +132,13 @@ void execute(struct Node *input) {
 				printf("Error: %s\n", strerror(errno));
 				exit(1);
 			}
-			// Fork child process
+
+			// Run child process
 			if (child_pid == 0) {
 				// Execute command, if execvp fails, print error message and terminate program
 				if (execvp(input -> command[i][0], input -> command[i]) < 0) {
 					fprintf(stderr, "Cannot do execvp for child process.\n");
+					printf("Error: %s\n", strerror(errno));
 					exit(1);
 				}
 			}
@@ -172,10 +147,10 @@ void execute(struct Node *input) {
 				// Wait for child process
 				if (wait(&child_status) < 0) {
 					fprintf(stderr, "Cannot wait for process completion.\n");
+					printf("Error: %s\n", strerror(errno));
 					exit(1);
 				}
 			}
         }
 	}
-	
 }

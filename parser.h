@@ -14,7 +14,7 @@
 typedef struct Node {
     char *target;
     char **dependence;
-    char *** command;
+    char ***command;
     int num;
 } Node;
 
@@ -24,4 +24,8 @@ typedef struct Node {
  * out blank lines.
  */
 Node **parser(char *path);
-char* delete_space(char*pStr);
+
+/*
+ * delete_space - return the string without space.
+ */
+char *delete_space(char *pStr);

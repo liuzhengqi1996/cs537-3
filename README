@@ -19,7 +19,8 @@ specifications and runs each build command.
 
 The parser module include a function that parses lines in the makefile, 
 splits valid lines into an array of strings including target, dependence, and 
-command, returns array of struct Node.
+command, returns array of struct Node. The module also include a function to
+delete spaces in a string.
 
 The graph module includes functions to create node for target and non-target file,
 to build a graph that represents the dependences between build specifications, 

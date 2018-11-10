@@ -40,28 +40,24 @@ int main(int argc, char *argv[]) {
 	// If makefile is found, use it to run
 	if(fp != NULL){
 		// If command line contains only 537make
-		int BUFFSIZE=1024;
- struct Node **parserline = (struct Node **) malloc(sizeof(struct Node*) * BUFFSIZE);
-                for (int i = 0; i < BUFFSIZE; i++) {
-                        parserline[i] = malloc(sizeof(struct Node));
-                        parserline[i] -> target = (char *) malloc(sizeof(char) * BUFFSIZE);
-                        parserline[i] -> dependence = (char **) malloc(sizeof(char*) * BUFFSIZE);
-                        parserline[i] -> command =(char***) malloc (sizeof(char*)*(BUFFSIZE));
-                        for(int j=0;j<BUFFSIZE;j++){
-                        parserline[i] -> command[j] = (char **) malloc(sizeof(char*) * 200);
-                	        }
-
-		                        }
-		if (argc == 1){
-
-			Node ** parserline = parser(path1);
-			printf("mian fun tar:%s\n",parserline[1] ->target);
-			printf("parser success\n");
-			Graph *G = build_graph(parserline);
-			printf("graph success\n");
-			post_order_traversal(G, G -> vexs[1]);
-			printf("travesel success\n");
+		int BUFFSIZE = 1024;
+		struct Node **parserline = (struct Node**) malloc(sizeof(struct Node*) * BUFFSIZE);
+		
+		for (int i = 0; i < BUFFSIZE; i++) {
+			parserline[i] = malloc(sizeof(struct Node));
+			parserline[i] -> target = (char*) malloc(sizeof(char) * BUFFSIZE);
+			parserline[i] -> dependence = (char**) malloc(sizeof(char*) * BUFFSIZE);
+			parserline[i] -> command = (char***) malloc(sizeof(char**) * BUFFSIZE);
+			
+			for (int j = 0; j < BUFFSIZE; j++) {
+				parserline[i] -> command[j] = (char**) malloc(sizeof(char*) * 200);
 			}
+		}
+		if (argc == 1) {
+			Node ** parserline = parser(path1);
+			Graph *G = build_graph(parserline);
+			post_order_traversal(G, G -> vexs[1]);
+		}
 		
 		// Otherwise, execute the file after 537make
 		else {
@@ -79,21 +75,23 @@ int main(int argc, char *argv[]) {
 					DIR *dir;
 					struct dirent *de;     
 					dir = opendir ("./");
+					
 					if (dir != NULL) {
 						while ((de = readdir(dir)) != NULL) {
-						int length = strlen(de -> d_name);
-						if (strncmp(de -> d_name + length - 2, ".o", 2) == 0) {
-							if (remove(de -> d_name) < 0) {
-								fprintf(stderr, "%s\n", "Cannnot remove file.");
-								exit(1);
+							int length = strlen(de -> d_name);
+							if (strncmp(de -> d_name + length - 2, ".o", 2) == 0) {
+								if (remove(de -> d_name) < 0) {
+									fprintf(stderr, "%s\n", "Cannnot remove file.");
+									exit(1);
+								}
 							}
 						}
-					}
-					closedir (dir);
+						closedir (dir);
 					}
 					return 0;
 				}
 			}
+			
 			Node **parserline = parser(path1);
 			Graph *G = build_graph(parserline);
 			int finder = find(argv[1], G -> vexs);
@@ -105,6 +103,7 @@ int main(int argc, char *argv[]) {
 		char *path2;
 		path2 = "Makefile";
 		fp = fopen(path2, "r");
+		
 		if(fp == NULL){
 			fprintf(stderr, "%s\n", "Cannnot find makefile or Makefile.");
 			exit(1);
