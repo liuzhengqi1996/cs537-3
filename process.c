@@ -35,6 +35,10 @@ void execute(struct Node *input) {
 	//printf("Input command %s\n", input -> command[cmd_num]);
 	//printf("Input command[0] %s\n", input -> command[cmd_num][0]);
 	
+	if (input -> command == NULL || input -> command[0] == NULL || input -> command[0][0] == NULL) {
+		return;
+	}
+	
 	// Pointers for file
 	FILE *fp;
 	
