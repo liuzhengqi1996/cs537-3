@@ -185,7 +185,7 @@ char* delete_space(char*s)
     
     
     for (i=0;i<n;i++){
-        if(s[i] !=' ' && s[i] !='\n'){
+        if(s[i] !=' ' && s[i]!='\t'&& s[i] !='\n'){
             temp[j]=s[i];
             j++;
             
