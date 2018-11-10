@@ -23,7 +23,6 @@ extern Node *create_file_node(char *input);
 extern int find(char *input, Node **vexs);
 extern int *post_order_traversal(struct Graph *graph, struct Node *input);
 
-
 /*
  * graph - create, update, and access a build specification; build the graph that
  * represents the dependences between build specifications.
@@ -151,5 +150,3 @@ int *post_order_traversal(struct Graph *graph, struct Node *input) {
 	
     return 0;
 }
-
-

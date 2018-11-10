@@ -18,7 +18,6 @@
 extern Node **parser(char *path);
 extern char *delete_space(char *pStr);
 
-
 /*
  * parser - parse lines in the makefile, split a line into an array of strings,
  * checking whether the line begins with a tab or regular character, and filter
@@ -62,16 +61,19 @@ Node **parser(char *path) {
 		// When there is a line to read, store the line in buffer
 		while (fgets(buffer, 100, fp) != NULL) {
 			// Skip the blank line
-			if (buffer[0] == '\n'||buffer[0]=='#') {
-			
+			if (buffer[0] == '\n') {
 				continue;
 			}
-			
+			else if (strstr(buffer, "clean") != NULL) {
+				size_t len = 1;
+				buffer = (char*) calloc(len, 100);
+				continue;
+			}
 			else {
 				int l;
 				// Check if the line is a target line
 				// The target starts on the first character of a line and ends with a ":" character
-				if ( strstr(buffer, ":") != NULL) {
+				if (strstr(buffer, ":") != NULL) {
 					temp = strtok(buffer, ":");
 					temp = delete_space(temp);
 					
@@ -153,7 +155,3 @@ char *delete_space(char*s) {
 	}
 	return temp;
 }
-
-
-
-

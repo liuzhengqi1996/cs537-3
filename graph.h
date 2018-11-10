@@ -47,4 +47,3 @@ int find(char *input, Node *vexs[MAXVEX]);
  * post_order_traversal - traverse the graph in a bottom-up order and execute commands for the required node
  */
 int *post_order_traversal(struct Graph *graph, struct Node *input);
-
