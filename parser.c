@@ -16,7 +16,7 @@
 #include "parser.h"
 
 extern Node ** parser(char *path);
-
+extern char* delete_space(char*pStr);
 /*
  * parser - parse lines in the makefile, split a line into an array of strings,
  * checking whether the line begins with a tab or regular character, and filter
@@ -57,8 +57,9 @@ Node ** parser(char *path) {
         for (int i = 0; i < BUFFSIZE; i++) {
             s[i] = malloc(sizeof(struct Node));
             s[i] -> target = (char *) malloc(sizeof(char) * BUFFSIZE);
+            s[i] -> target = " ";
             s[i] -> dependence = (char **) malloc(sizeof(char*) * BUFFSIZE);
-            s[i] -> command =(char***) malloc (sizeof(char**)*(BUFFSIZE*BUFFSIZE));
+            s[i] -> command =(char***) malloc (sizeof(char*)*(BUFFSIZE*BUFFSIZE));
             for(int j=0;j<BUFFSIZE;j++){
                 s[i] -> command[j] = (char **) malloc(sizeof(char*) * 200);
             }
@@ -92,14 +93,21 @@ Node ** parser(char *path) {
                 // The target starts on the first character of a line and ends with a ":" character
                 if ( strstr(buffer,":") != NULL) {
                     temp = strtok(buffer, ":");
-                    ////    printf("target:%s\n",temp);
-                    // Increment struct count for a new target
+                    temp=delete_space(temp);
+                    
                     if (s[i] -> target != NULL) {i++;}
                     s[i] -> target = temp;
-                    l = 0;
+                    l=0;
                     // Dependence names are after ":" character and each is separated by one or more spaces
                     int j = 0;
-                    while ((s[i] -> dependence[j] = strtok(NULL, " ")) != NULL) {
+                    char *temper;
+                    while (( temper = strtok(NULL, " ")) != NULL) {
+                        //char * temper;
+                        // temper = strtok(NULL, " ");
+                        
+                        temper=delete_space(temper);
+                        
+                        s[i] -> dependence[j]=temper;
                         j++;
                         size_t len = 1;
                         buffer = (char*) calloc(len,100 );
@@ -114,23 +122,24 @@ Node ** parser(char *path) {
                     // Arguments are after tab character and each is separated by one or more spaces or tabs
                     int j = 0;
                     char* ty = strtok(buffer," ");
-                    //printf("no.1:%s\n",ty);
-                    //printf("i:%d\n",i);
+                    ty=delete_space(ty);
+                    
                     s[i] -> command[l][0]=ty;
                     j++;
-                    //printf("第一个塞进去了");
-                    //printf("ty:%s\n",ty);
                     char * tempri;
-
+                    
                     while (( tempri  = strtok(NULL, " ")) != NULL) {
-                        //      printf("cmd:%s\n",tempri);
-                        //tempri =strcat(tempri,"\0");
+                        
+                        
+                        tempri=delete_space(tempri);
                         s[i] -> command[l][j] =tempri;
                         j++;
                     }
-                    char * last =strtok(NULL,"\n");
-                    s[i] -> command[l][j]=last;
-                    //      printf("%d last:%s\n",j,last);
+                    /*  char * last =strtok(NULL,"\n");
+                     delete_space(last);
+                     s[i] -> command[l][j]=last;
+                     //      printf("%d last:%s\n",j,last);
+                     */
                     l++;
                     size_t len = 1;
                     buffer = (char*) calloc(len,100 );
@@ -145,10 +154,10 @@ Node ** parser(char *path) {
         }
         
         //printf("buffer:%s",buffer);
-        printf("10:target:%s\n",s[10] -> target);
-        printf("10:dep:%s\n",s[10] -> dependence[0]);
-        printf("10:dep:%s\n",s[10] -> dependence[1]);
-        printf("10:dep:%s\n",s[10] -> dependence[2]);
+        printf("2:target:%s:%ld\n",s[2] -> target,strlen(s[2] -> target));
+        printf("3:dep:%s\n",s[3] -> dependence[0]);
+        printf("3:dep:%s\n",s[3] -> dependence[1]);
+        printf("3:dep:%s\n",s[3] -> dependence[2]);
         printf("10-1-1:command,%s\n",s[10]-> command[0][0]);
         printf("10-1-2:command,%s\n",s[10]-> command[0][1]);
         printf("10-1-3:command,%s\n",s[10]-> command[0][2]);
@@ -159,4 +168,30 @@ Node ** parser(char *path) {
         return s;
         printf("success return s");
     }
+}
+
+char* delete_space(char*s)
+{
+    if (s==NULL) return;
+    
+    int i,j;
+    j=0;
+    int n=strlen(s);
+    
+    char* temp=(char*)malloc(sizeof(char)*n);
+    
+    for (i=0;i<n;i++){
+        if(s[i] !=' ' && s[i] !='\n'){
+            temp[j]=s[i];
+            j++;
+            
+        }
+        if(s[i] == '\n'){break;}
+        
+        
+    }
+    return temp;
+    s=temp;
+    
+    free(temp);
 }

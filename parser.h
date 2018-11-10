@@ -12,14 +12,15 @@
 
 // Structure for target, dependence, command strings
 typedef struct Node {
-	char *target;
-	char **dependence;
-	char ***command;
+    char *target;
+    char **dependence;
+    char *** command;
 } Node;
 
 /*
- * parser - parse lines in the makefile, split a line into an array of strings, 
- * store the line into strings after checking whether the line is valid and 
- * filtering out blank lines, return array of struct Node.
+ * parser - parse lines in the makefile, split a line into an array of strings,
+ * checking whether the line begins with a tab or regular character, and filter
+ * out blank lines.
  */
 Node **parser(char *path);
+char* delete_space(char*pStr);
