@@ -96,6 +96,7 @@ Graph * build_graph( Node **input) {
             
         }
     }
+	/*
     for (int i=0;i<35;i++){
         printf("grap%d:%s\n",i,graph ->vexs[i] -> target);
         //      printf("grap%d:%s:%s %s %s\n",i,graph ->vexs[i] -> target,graph ->vexs[i] ->command[0][0],graph ->vexs[i] ->command[0][1],graph ->vexs[i] ->command[1][0]);
@@ -103,6 +104,7 @@ Graph * build_graph( Node **input) {
     for (int i=0;i<18;i++){
         //printf("grap%d:%s:%s %s %s\n",i,graph ->vexs[i] -> target,graph ->vexs[i] ->command[0][2],graph ->vexs[i] ->command[1][6],graph ->vexs[i] ->command[2][3]);
     }
+	*/
     return graph;
 }
 
