@@ -22,15 +22,18 @@
 #include "graph.h"
 #include "process.h"
 
-extern void execute(struct Node *input, int cmd_num);
+extern void execute(struct Node *input);
 
 /*
  * execute - run build command in a new process, waiting for its completion, 
  * and getting the return code.
  */
-void execute(struct Node *input, int cmd_num) {
+void execute(struct Node *input) {
 	
 	printf("%s\n", "Execute function starts.");
+	
+	//printf("Input command %s\n", input -> command[cmd_num]);
+	//printf("Input command[0] %s\n", input -> command[cmd_num][0]);
 	
 	// Pointers for file
 	FILE *fp;
@@ -68,31 +71,37 @@ void execute(struct Node *input, int cmd_num) {
 					// If the dependence file has earlier modification time, 
 					// then run command
 					if (difftime(dependence_mtime, modification_time) > 0) {
-						// Pid of child process
-						pid_t child_pid;
-						
-						// Exit status of child process
-						int child_status;
-						
-						// If fork fails, print error message and terminate program
-						if ((child_pid = fork()) < 0) {
-							fprintf(stderr, "Cannot do fork a child process.\n");
-							exit(1);
+						int cmd_counter = 0;
+						while (input -> command[cmd_counter] != NULL) {
+							cmd_counter++;
 						}
-						// Fork child process
-						if (child_pid == 0) {
-							// Execute command, if execvp fails, print error message and terminate program
-							if (execvp(input -> command[cmd_num][0], input -> command[cmd_num]) < 0) {
-								fprintf(stderr, "Cannot do execvp for child process.\n");
+						for (int i = 0; i < cmd_counter; i++) {
+							// Pid of child process
+							pid_t child_pid;
+							
+							// Exit status of child process
+							int child_status;
+							
+							// If fork fails, print error message and terminate program
+							if ((child_pid = fork()) < 0) {
+								fprintf(stderr, "Cannot do fork a child process.\n");
 								exit(1);
 							}
-						}
-						// Run parent process
-						else {
-							// Wait for child process
-							if (wait(&child_status) < 0) {
-								fprintf(stderr, "Cannot do execvp for child process.\n");
-								exit(1);
+							// Fork child process
+							if (child_pid == 0) {
+								// Execute command, if execvp fails, print error message and terminate program
+								if (execvp(input -> command[i][0], input -> command[i]) < 0) {
+									fprintf(stderr, "Cannot do execvp for child process.\n");
+									exit(1);
+								}
+							}
+							// Run parent process
+							else {
+								// Wait for child process
+								if (wait(&child_status) < 0) {
+									fprintf(stderr, "Cannot do execvp for child process.\n");
+									exit(1);
+								}
 							}
 						}
 					}
@@ -103,32 +112,38 @@ void execute(struct Node *input, int cmd_num) {
 	}
 	// If target can't be found, then run command
 	else {
-		// Pid of child process
-		pid_t child_pid;
-		
-		// Exit status of child process
-		int child_status;
-		
-		// If fork fails, print error message and terminate program
-		if ((child_pid = fork()) < 0) {
-			fprintf(stderr, "Cannot do fork a child process.\n");
-			exit(1);
-		}
-		// Fork child process
-		if (child_pid == 0) {
-			// Execute command, if execvp fails, print error message and terminate program
-			if (execvp(input -> command[cmd_num][0], input -> command[cmd_num]) < 0) {
-				fprintf(stderr, "Cannot do execvp for child process.\n");
+		int cmd_counter = 0;
+        while (input -> command[cmd_counter] != NULL) {
+            cmd_counter++;
+        }
+        for (int i = 0; i < cmd_counter; i++) {
+			// Pid of child process
+			pid_t child_pid;
+			
+			// Exit status of child process
+			int child_status;
+			
+			// If fork fails, print error message and terminate program
+			if ((child_pid = fork()) < 0) {
+				fprintf(stderr, "Cannot do fork a child process.\n");
 				exit(1);
 			}
-		}
-		// Run parent process
-		else {
-			// Wait for child process
-			if (wait(&child_status) < 0) {
-				fprintf(stderr, "Cannot do execvp for child process.\n");
-				exit(1);
+			// Fork child process
+			if (child_pid == 0) {
+				// Execute command, if execvp fails, print error message and terminate program
+				if (execvp(input -> command[i][0], input -> command[i]) < 0) {
+					fprintf(stderr, "Cannot do execvp for child process.\n");
+					exit(1);
+				}
 			}
-		}
+			// Run parent process
+			else {
+				// Wait for child process
+				if (wait(&child_status) < 0) {
+					fprintf(stderr, "Cannot do execvp for child process.\n");
+					exit(1);
+				}
+			}
+        }
 	}
 }
