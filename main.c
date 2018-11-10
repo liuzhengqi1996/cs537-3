@@ -59,7 +59,7 @@ int main(int argc, char *argv[]) {
 			printf("parser success\n");
 			Graph *G = build_graph(parserline);
 			printf("graph success\n");
-			post_order_traversal(G, G -> vexs[0]);
+			post_order_traversal(G, G -> vexs[1]);
 			printf("travesel success\n");
 			}
 		
