@@ -29,3 +29,5 @@ Node **parser(char *path);
  * delete_space - return the string without space.
  */
 char *delete_space(char *pStr);
+
+Node ** parser_clean(char * path);
