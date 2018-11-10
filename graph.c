@@ -155,6 +155,7 @@ int find(char *input, Node **vexs){
 /*
  * post_order_traversal - traverse the graph in a bottom-up order and execute commands for the required node
  */
+extern int iter=0;
 int *post_order_traversal(struct Graph *graph, struct Node *input) {
         printf("travese:%s\n",input ->target);
         int num=graph ->vexs[1] ->num +1;
