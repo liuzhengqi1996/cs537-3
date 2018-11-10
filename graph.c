@@ -39,8 +39,6 @@ Graph * build_graph( Node **input) {
         arc[i]=(int*)malloc(MAXVEX*sizeof(int));
     }
     
-    
-    
     int counter = 1;
     printf("input:%c\n",input[2] ->target[0] );
     /* for (int i=1;1<1024;i++){
@@ -103,7 +101,7 @@ Graph * build_graph( Node **input) {
         //      printf("grap%d:%s:%s %s %s\n",i,graph ->vexs[i] -> target,graph ->vexs[i] ->command[0][0],graph ->vexs[i] ->command[0][1],graph ->vexs[i] ->command[1][0]);
     }
     for (int i=0;i<18;i++){
-        printf("grap%d:%s:%s %s %s\n",i,graph ->vexs[i] -> target,graph ->vexs[i] ->command[0][2],graph ->vexs[i] ->command[1][6],graph ->vexs[i] ->command[2][3]);
+        //printf("grap%d:%s:%s %s %s\n",i,graph ->vexs[i] -> target,graph ->vexs[i] ->command[0][2],graph ->vexs[i] ->command[1][6],graph ->vexs[i] ->command[2][3]);
     }
     return graph;
 }
@@ -162,8 +160,8 @@ int *post_order_traversal(struct Graph *graph, struct Node *input) {
     int sum_visited = 0;
     for (int i = 0; i < MAXVEX; i++) {
         for (int j = 0; j < MAXVEX; j++) {
-            if (graph -> vexs[i] == input) {
-                sum_edge = sum_edge + graph -> arc[i][j];
+            if (graph -> vexs[i] == input && graph -> arc[i][j] == 1) {
+                sum_edge++;
             }
             if (graph -> vexs[i] == input && graph -> arc[i][j] == 1 && graph -> visited[j] == 1) {
                 sum_visited++;
@@ -179,6 +177,7 @@ int *post_order_traversal(struct Graph *graph, struct Node *input) {
         }
         for (int i = 0; i < cmd_counter; i++) {
             execute(input, cmd_counter);
+			return 0;
         }
     }
     

@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-// 1Main File:        main.c
+// Main File:        main.c
 // This File:        parser.c
 // Other Files:      main.c, parser.h, graph.c, graph.h, process.c, process.h
 //                   makefile
