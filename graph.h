@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Main File:        main.c
 // This File:        graph.h
-// Other Files:      main.c, parser.c, parser.h, graph.c, process.c, process.h 
+// Other Files:      main.c, parser.c, parser.h, graph.c, process.c, process.h
 //                   makefile
 // Semester:         CS 537 Fall 2018
 // Lecture:          Lec 001
@@ -14,16 +14,16 @@
 
 // Structure for graph
 typedef struct Graph {
-	int num_vertices;
-	// List of nodes
+    int num_vertices;
+    // List of nodes
     Node **vexs;
-	// Adajacency matrix
+    // Adajacency matrix
     int arc[MAXVEX][MAXVEX];
-	int visited[MAXVEX];
+    int visited[MAXVEX];
 } Graph;
 
 /*
- * graph - create, update, and access a build specification; build the graph that 
+ * graph - create, update, and access a build specification; build the graph that
  * represents the dependences between build specifications.
  */
 Graph *build_graph(struct Node **input);
@@ -31,7 +31,7 @@ Graph *build_graph(struct Node **input);
 /*
  * create_tar_node - create a node and initialize with input string structure for a target file.
  */
-Node *create_tar_node(struct Node *input);
+Node *create_tar_node(struct Node *input,int n );
 
 /*
  * create_file_node - create a node and initialize with input string structure for a non-target file.

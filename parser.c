@@ -135,6 +135,10 @@ Node ** parser(char *path) {
                         s[i] -> command[l][j] =tempri;
                         j++;
                     }
+                    j=j-1;
+                    tempri =  s[i] -> command[l][j];
+                    strcat(tempri,"\0");
+                    s[i] -> command[l][j] =tempri;
                     /*  char * last =strtok(NULL,"\n");
                      delete_space(last);
                      s[i] -> command[l][j]=last;
@@ -154,17 +158,16 @@ Node ** parser(char *path) {
         }
         
         //printf("buffer:%s",buffer);
-        printf("2:target:%s:%ld\n",s[2] -> target,strlen(s[2] -> target));
-        printf("3:dep:%s\n",s[3] -> dependence[0]);
-        printf("3:dep:%s\n",s[3] -> dependence[1]);
-        printf("3:dep:%s\n",s[3] -> dependence[2]);
-        printf("10-1-1:command,%s\n",s[10]-> command[0][0]);
-        printf("10-1-2:command,%s\n",s[10]-> command[0][1]);
-        printf("10-1-3:command,%s\n",s[10]-> command[0][2]);
-        printf("7-2-1:command,%s\n",s[7]-> command[1][0]);
-        printf("7-2-2:command,%s\n",s[7]-> command[1][1]);
+        printf("18:target:%s:%ld\n",s[17] -> target,strlen(s[17] -> target));
+        printf("317:dep:%s\n",s[17] -> dependence[0]);
+        printf("17:dep:%s\n",s[17] -> dependence[1]);
+        printf("17:dep:%s\n",s[17] -> dependence[2]);
+        printf("17-1-1:command,%s\n",s[17]-> command[0][0]);
+        printf("17-1-2:command,%s\n",s[17]-> command[0][1]);
+        printf("17-1-3:command,%s\n",s[17]-> command[0][2]);
+        printf("17-2-1:command,%s\n",s[17]-> command[1][0]);
+        printf("17-2-2:command,%s\n",s[17]-> command[1][1]);
         printf("1:dep:%s\n",s[2] -> dependence[0]);
-        
         return s;
         printf("success return s");
     }
@@ -180,6 +183,7 @@ char* delete_space(char*s)
     
     char* temp=(char*)malloc(sizeof(char)*n);
     
+    
     for (i=0;i<n;i++){
         if(s[i] !=' ' && s[i] !='\n'){
             temp[j]=s[i];
@@ -194,4 +198,8 @@ char* delete_space(char*s)
     s=temp;
     
     free(temp);
+    
+    
+    
+    
 }

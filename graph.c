@@ -18,7 +18,7 @@
 #include "process.h"
 
 extern Graph *build_graph(struct Node **input);
-extern Node *create_tar_node(struct Node *input);
+extern Node *create_tar_node(struct Node *input,int n);
 extern Node *create_file_node(char *input);
 extern int find(char *input, Node **vexs);
 extern int *post_order_traversal(struct Graph *graph, struct Node *input);
@@ -56,60 +56,73 @@ Graph * build_graph( Node **input) {
     while ( input[counter] -> target [0] != ' ' ) {
         counter++;
     }
-    
+    counter=counter;
     //printf("input:%c\n",input[20] ->target[0] );
     printf("counter:%d\n",counter);
     graph -> num_vertices = counter;
-    printf("vertex_num:%d\n",graph -> num_vertices);
-    // Create all target nodes
-    for (int i = 0; i < counter; i++) {
-        Node* newNode = create_tar_node(input[i]);
-        //graph -> vexs[i]=(struct Node*)malloc (sizeof(struct Node*));
-        graph -> vexs[i] = newNode;
-    }
-    for (int i = counter; i < MAXVEX; i++) {
-        graph -> vexs[i] = NULL;
-    }
-    // Counter for all vertices
-    int vex_counter = counter;
-    for (int i = 1; i < counter; i++) {
-        // Counter for dependency node
-        int dep_count = 0;
-        while(input[i] -> dependence[dep_count] != NULL) {
-            dep_count++;
-        }
-        for (int j = 0; j < dep_count; j++){
-            char *dest = input[i] -> dependence[j];
-            printf("dest:%s ",dest);
-            int finder = find(dest, graph -> vexs);
-            printf("finder:%d\n",finder);
-            // Change arc to 1 in adajacency matrix if the node is connected to its child,
-            // create a file node for non-target node
-            if (finder == -1) {
-                Node *newNode = create_file_node(dest);
-                int newvex = vex_counter;
-                graph -> vexs[vex_counter] = newNode;
-                vex_counter++;
-                graph -> arc[i][newvex] = 1;
-            }
-            else {
-                graph -> arc[i][finder] = 1;
-            }
-            
-        }
-    }
-    printf("grap18:%s\n",graph ->vexs[18] -> target);
-    return graph;
 }
+counter=counter;
+//printf("input:%c\n",input[20] ->target[0] );
+printf("counter:%d\n",counter);
+graph -> num_vertices = counter;
+printf("vertex_num:%d\n",graph -> num_vertices);
+// Create all target nodes
+for (int i = 0; i < counter; i++) {
+    Node* newNode = create_tar_node(input[i],counter-1);
+    //graph -> vexs[i]=(struct Node*)malloc (sizeof(struct Node*));
+    graph -> vexs[i] = newNode;
+}
+for (int i = counter+1; i < MAXVEX; i++) {
+    graph -> vexs[i] = NULL;
+}
+// Counter for all vertices
+int vex_counter = counter;
+for (int i = 1; i < counter; i++) {
+    // Counter for dependency node
+    int dep_count = 0;
+    while(input[i] -> dependence[dep_count] != NULL) {
+        dep_count++;
+    }
+    for (int j = 0; j < dep_count; j++){
+        char *dest = input[i] -> dependence[j];
+        printf("dest:%s ",dest);
+        int finder = find(dest, graph -> vexs);
+        printf("finder:%d\n",finder);
+        // Change arc to 1 in adajacency matrix if the node is connected to its child,
+        // create a file node for non-target node
+        if (finder == -1) {
+            Node *newNode = create_file_node(dest);
+            int newvex = vex_counter;
+            graph -> vexs[vex_counter] = newNode;
+            vex_counter++;
+            graph -> arc[i][newvex] = 1;
+        }
+        else {
+            graph -> arc[i][finder] = 1;
+        }
+        
+    }
+}
+for (int i=0;i<35;i++){
+    printf("grap%d:%s\n",i,graph ->vexs[i] -> target);
+    //      printf("grap%d:%s:%s %s %s\n",i,graph ->vexs[i] -> target,graph ->vexs[i] ->command[0][0],graph ->vexs[i] ->command[0][1],graph ->vexs[i] ->command[1][0]);
+}
+for (int i=0;i<18;i++){
+    printf("grap%d:%s:%s %s %s\n",i,graph ->vexs[i] -> target,graph ->vexs[i] ->command[0][2],graph ->vexs[i] ->command[1][6],graph ->vexs[i] ->command[2][3]);
+}
+return graph;
+}
+
 /*
  * create_tar_node - create a node and initialize with input string structure for a target file.
  */
-Node *create_tar_node(struct Node *input) {
+Node *create_tar_node(struct Node *input,int n) {
     struct Node *node = (struct Node*) malloc(sizeof(struct Node));
     
     node -> target = input -> target;
     node -> dependence = input -> dependence;
     node -> command = input -> command;
+    node -> num =n;
     return node;
 }
 
@@ -186,3 +199,4 @@ int *post_order_traversal(struct Graph *graph, struct Node *input) {
     }
     return 0;
 }
+            

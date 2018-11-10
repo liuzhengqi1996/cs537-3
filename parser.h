@@ -15,6 +15,7 @@ typedef struct Node {
     char *target;
     char **dependence;
     char *** command;
+    int num;
 } Node;
 
 /*
