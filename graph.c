@@ -180,7 +180,6 @@ int *post_order_traversal(struct Graph *graph, struct Node *input) {
         for (int i = 0; i < cmd_counter; i++) {
             execute(input, cmd_counter);
         }
-        return 0;
     }
     
     // Traverse the child node
