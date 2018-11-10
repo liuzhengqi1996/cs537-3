@@ -22,6 +22,7 @@ extern Node *create_tar_node(struct Node *input,int n);
 extern Node *create_file_node(char *input);
 extern int find(char *input, Node **vexs);
 extern int *post_order_traversal(struct Graph *graph, struct Node *input);
+int post_order_clean(struct Graph* graph,struct Node * input);
 
 /*
  * graph - create, update, and access a build specification; build the graph that
@@ -149,4 +150,27 @@ int *post_order_traversal(struct Graph *graph, struct Node *input) {
 	execute(input);
 	
     return 0;
+}
+
+int post_order_clean(struct Graph* graph,struct Node * input){
+	//printf("now clean need:%s\n",input -> target);
+	int num=graph ->vexs[1] ->num ;
+    	int n=find(input -> target,graph ->vexs);
+        //printf("num is %d\n",n);
+
+    for(int i=1;i<num;i++){
+                if (graph ->arc[n][i]==1){
+                       
+                        post_order_traversal(graph,graph -> vexs[i] );
+
+                }
+
+        }
+        execute(input);
+
+/*
+else {
+	printf("clean target is %s",graph ->vexs[n] -> target);
+	execute(input);}*/
+return 0;
 }
