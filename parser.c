@@ -61,14 +61,10 @@ Node **parser(char *path) {
 		// When there is a line to read, store the line in buffer
 		while (fgets(buffer, 100, fp) != NULL) {
 			// Skip the blank line
-			if (buffer[0] == '\n') {
+			if (buffer[0] == '\n'||buffer[0] == '#') {
 				continue;
 			}
-			else if (strstr(buffer, "clean") != NULL) {
-				size_t len = 1;
-				buffer = (char*) calloc(len, 100);
-				continue;
-			}
+			
 			else {
 				int l;
 				// Check if the line is a target line
